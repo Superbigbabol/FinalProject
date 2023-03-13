@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,10 +35,32 @@ public class KittenImage extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.my_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.about:
+                Toast.makeText(KittenImage.this, "Version 1.0, created by Bo Shu", Toast.LENGTH_LONG).show();
+                break;
+            // TODO: implement other menu items
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityKittenImageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // toolbar
+        setSupportActionBar(binding.myToolbar);
 
         // adapter for the RecyclerView
         myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
