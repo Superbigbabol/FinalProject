@@ -37,7 +37,9 @@ public class KittenImage extends AppCompatActivity {
     ActivityKittenImageBinding binding;
     RecyclerView.Adapter myAdapter;
     Bitmap kittenPic;
+
 //    ArrayList<String> msg = new ArrayList<>();
+// todo : create FavouritePic class and instantiate here
 
     // a collection of row objects shown in RecyclerView
     class MyRowHolder extends RecyclerView.ViewHolder {
@@ -159,23 +161,21 @@ public class KittenImage extends AppCompatActivity {
         binding.saveBtn.setOnClickListener(click -> {
             String fileName = "Kitten_"+ binding.imgWidth.getText().toString() + binding.imgHeight.getText().toString() + ".png";
 
-            /*
-            //test if a file exists
+            //check if kitten img exists
             File file = new File(getFilesDir(), fileName);
             if (file.exists()) {
-                Bitmap thumbnail = BitmapFactory.decodeFile(file.getPath());
-
+                // if exists, then use it and do something
+                kittenPic = BitmapFactory.decodeFile(file.getPath());
+            } else {
+                // not exist, create one and save on the disk
+                try (FileOutputStream fOut = openFileOutput(fileName, Context.MODE_PRIVATE);) {
+                    kittenPic.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                    fOut.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            */
-            try (FileOutputStream fOut = openFileOutput(fileName, Context.MODE_PRIVATE);) {
-                kittenPic.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-                fOut.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
             // todo : notify RecyclerView
-//            myAdapter.notifyItemInserted(msg.size()-1);
             myAdapter.notifyItemInserted(1);
 
             // after save the img, the EditText should be cleaned, so other width and height can be entered
