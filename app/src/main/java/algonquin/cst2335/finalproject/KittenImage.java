@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -89,17 +91,24 @@ public class KittenImage extends AppCompatActivity {
         // todo : setLayoutManager for the imgRecyclerView
 
 
+        // shared preferences to save width and height that was entered in last time
+        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        binding.imgHeight.setText(prefs.getString("ImgHeight",""));
+        binding.imgWidth.setText(prefs.getString("ImgWidth", ""));
+
+
         // fetch image from web
         binding.retrieveBtn.setOnClickListener(click -> {
-//            binding.imgWidth.setText("");
-//            binding.imgHeight.setText("");
             String width = binding.imgWidth.getText().toString();
             String height = binding.imgHeight.getText().toString();
+            editor.putString("ImgHeight", height);
+            editor.putString("ImgWidth", width);
+            editor.apply();
             String url = "https://placekitten.com/"+width+"/"+height;
             Executor thread = Executors.newSingleThreadExecutor();
             thread.execute(() -> {
-                try {
-                    InputStream inputStream = new URL(url).openStream();
+                try(InputStream inputStream = new URL(url).openStream();) {
                     kittenPic = BitmapFactory.decodeStream(inputStream);
                 } catch (IOException e) {
                     e.printStackTrace();
