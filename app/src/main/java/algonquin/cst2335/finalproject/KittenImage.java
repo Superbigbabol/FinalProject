@@ -1,11 +1,13 @@
 package algonquin.cst2335.finalproject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,8 +42,8 @@ public class KittenImage extends AppCompatActivity {
     RecyclerView.Adapter myAdapter;
     Bitmap kittenPic;
 
-//    ArrayList<String> msg = new ArrayList<>();
-// todo : create FavouritePic class and instantiate here
+//    ArrayList<FavouritePic> myFavourites = new ArrayList<>();
+// todo : create FavouritePic class and implement ViewModelProvider(this).get(XXXViewModel.class);
 
     // a collection of row objects shown in RecyclerView
     class MyRowHolder extends RecyclerView.ViewHolder {
@@ -68,9 +72,30 @@ public class KittenImage extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.about:
-                Toast.makeText(KittenImage.this, "Version 1.0, created by Bo Shu", Toast.LENGTH_LONG).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(KittenImage.this);
+                builder.setTitle("About").setMessage("Version 1.0, created by Bo Shu").setPositiveButton("Ok", (dialogInterface, i) -> {}).create().show();
                 break;
             // TODO: implement other menu items
+            case R.id.nasa:
+                Toast.makeText(KittenImage.this, "Welcome to Nasa Mars Rover Photos", Toast.LENGTH_LONG).show();
+            //    Intent nasaIntent = new Intent(KittenImage.this, RoverPhotos.class);
+            //    startActivity(nasaIntent);
+                break;
+            case R.id.weather:
+                Toast.makeText(KittenImage.this, "Welcome to WeatherStack", Toast.LENGTH_LONG).show();
+            //    Intent weatherIntent = new Intent(KittenImage.this, Weather.class);
+            //    startActivity(weatherIntent);
+                break;
+            case R.id.nytimes:
+                Snackbar.make(binding.myToolbar, "Welcome to New York Times", Snackbar.LENGTH_LONG)
+                        .setAction("Back to Home Page", click -> {
+                            Intent i = new Intent(KittenImage.this, MainActivity.class);
+                            startActivity(i);
+                        })
+                        .show();
+            //    Intent nytIntent = new Intent(KittenImage.this, NewYorkTimes.class);
+            //    startActivity(nytIntent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
