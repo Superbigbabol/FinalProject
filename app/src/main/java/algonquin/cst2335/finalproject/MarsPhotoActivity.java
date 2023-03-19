@@ -62,7 +62,7 @@ public class MarsPhotoActivity extends AppCompatActivity {
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
             thumbnail = itemView.findViewById(R.id.thumbnail);
-            roverName = itemView.findViewById(R.id.width);
+            roverName = itemView.findViewById(R.id.roverName);
 
         }
     }

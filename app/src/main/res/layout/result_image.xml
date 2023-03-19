@@ -14,7 +14,7 @@
         tools:srcCompat="@android:drawable/btn_star_big_on" />
 
     <TextView
-        android:id="@+id/width"
+        android:id="@+id/roverName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
