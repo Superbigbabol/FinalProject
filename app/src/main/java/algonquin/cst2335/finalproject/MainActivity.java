@@ -20,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // TODO: integrate other Activities into this MainActivity
-//        binding.nasaImgBtn.setOnClickListener( click -> {
-//            Intent nasaIntent = new Intent(MainActivity.this, RoverPhotos.class);
-//            startActivity(nasaIntent);
-//            Toast.makeText(MainActivity.this, "You are in Nasa Rover", Toast.LENGTH_SHORT).show();
-//        });
+        binding.nasaImgBtn.setOnClickListener( click -> {
+            Intent nasaIntent = new Intent(MainActivity.this, MarsPhotoActivity.class);
+            startActivity(nasaIntent);
+            Toast.makeText(MainActivity.this, "You are in Nasa Rover", Toast.LENGTH_SHORT).show();
+        });
 
         binding.kittenImgBtn.setOnClickListener( click -> {
             Intent kittenIntent = new Intent(MainActivity.this, KittenImage.class);
