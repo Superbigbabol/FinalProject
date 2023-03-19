@@ -53,7 +53,7 @@ public class KittenImage extends AppCompatActivity {
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
             thumbnail = itemView.findViewById(R.id.thumbnail);
-            widthText = itemView.findViewById(R.id.roverName);
+            widthText = itemView.findViewById(R.id.width);
             heightText = itemView.findViewById(R.id.height);
             timeText = itemView.findViewById(R.id.time);
         }
