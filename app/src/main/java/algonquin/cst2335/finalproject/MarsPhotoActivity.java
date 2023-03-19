@@ -33,16 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import algonquin.cst2335.finalproject.data.MarsPhoto;
 import algonquin.cst2335.finalproject.databinding.ActivityMarsPhotoBinding;
@@ -70,7 +62,7 @@ public class MarsPhotoActivity extends AppCompatActivity {
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
             thumbnail = itemView.findViewById(R.id.thumbnail);
-            roverName = itemView.findViewById(R.id.roverName);
+            roverName = itemView.findViewById(R.id.width);
 
         }
     }
