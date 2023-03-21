@@ -98,10 +98,11 @@ public class Weather extends AppCompatActivity {
 
         binding = ActivityWeatherBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+//        setContentView(R.layout.activity_weather);
 
         // toolbar
         setSupportActionBar(binding.myToolbar);
-        setContentView(R.layout.activity_weather);
+
 
         initView();
 
