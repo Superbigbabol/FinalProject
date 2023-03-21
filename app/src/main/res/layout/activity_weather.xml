@@ -64,6 +64,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_weather" />
+
     <TextView
         android:id="@+id/tv_wind"
         android:layout_width="wrap_content"
@@ -77,10 +78,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@id/rlv_future_weather"
-        android:layout_width="410dp"
-        android:layout_height="338dp"
+        android:layout_width="360dp"
+        android:layout_height="324dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="391dp" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_wind" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
