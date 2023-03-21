@@ -10,7 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class NetUtil {
-    public static final String URL_WEATHER_WITH_FUTURE = "http:";
+    public static String apiKey = "8e99fc29654b0fe11b596a68d6548ac3";
+    public static final String URL_WEATHER_WITH_FUTURE = "http://api.weatherstack.com/current" + apiKey;
 
     public static String doGet(String urlStr){
 
