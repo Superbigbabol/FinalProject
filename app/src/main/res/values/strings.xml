@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">FinalProject</string>
+
+    <string-array name="cities">
+        <item>Ottawa</item>
+        <item>Toronto</item>
+        <item>Quebec</item>
+        <item>Montreal</item>
+        <item>Vancouver</item>
+    </string-array>
 </resources>

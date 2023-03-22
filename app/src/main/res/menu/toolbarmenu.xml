@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/about"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title=" Kitten Placeholder Images"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/nasa"
+        android:icon="@drawable/nasa"
+        android:title="Nasa Mars Rover photos"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/kittenimage"
+        android:icon="@drawable/kitten"
+        android:title="WeatherStack"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/newyorktimes"
+        android:icon="@drawable/the_new_york_times"
+        android:title="New York Times"
+        app:showAsAction="always" />
+</menu>
