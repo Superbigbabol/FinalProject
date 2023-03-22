@@ -90,8 +90,8 @@ public class MarsPhotoActivity extends AppCompatActivity {
                 break;
             case R.id.weather:
                 Toast.makeText(MarsPhotoActivity.this, "Welcome to WeatherStack", Toast.LENGTH_LONG).show();
-                //    Intent weatherIntent = new Intent(MarsPhotoActivity.this, Weather.class);
-                //    startActivity(weatherIntent);
+                Intent weatherIntent = new Intent(MarsPhotoActivity.this, Weather.class);
+                startActivity(weatherIntent);
                 break;
             case R.id.nytimes:
                 Snackbar.make(binding.myToolbar, "Welcome to New York Times", Snackbar.LENGTH_LONG)
@@ -100,7 +100,8 @@ public class MarsPhotoActivity extends AppCompatActivity {
                             startActivity(i);
                         })
                         .show();
-
+                //    Intent nytIntent = new Intent(MarsPhotoActivity.this, NewYorkTimes.class);
+                //    startActivity(nytIntent);
                 break;
         }
         return super.onOptionsItemSelected(item);

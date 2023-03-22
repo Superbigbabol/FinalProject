@@ -53,18 +53,18 @@ public class Weather extends AppCompatActivity {
         {
             case R.id.about:
                 AlertDialog.Builder builder = new AlertDialog.Builder(Weather.this);
-                builder.setTitle("Weather").setMessage("Welcome to Weather App").setPositiveButton("Ok", (dialogInterface, i) -> {}).create().show();
+                builder.setTitle("About").setMessage("Version 1.0, created by Junqi Hong").setPositiveButton("Ok", (dialogInterface, i) -> {}).create().show();
                 break;
             // TODO: implement other menu items
             case R.id.nasa:
                 Toast.makeText(Weather.this, "Welcome to Nasa Mars Rover Photos", Toast.LENGTH_LONG).show();
-                //    Intent nasaIntent = new Intent(KittenImage.this, RoverPhotos.class);
-                //    startActivity(nasaIntent);
+                Intent nasaIntent = new Intent(Weather.this, MarsPhotoActivity.class);
+                startActivity(nasaIntent);
                 break;
             case R.id.kittenimage:
                 Toast.makeText(Weather.this, "Welcome to Kitten Placeholder Images", Toast.LENGTH_LONG).show();
-                //    Intent weatherIntent = new Intent(KittenImage.this, Weather.class);
-                //    startActivity(weatherIntent);
+                Intent weatherIntent = new Intent(Weather.this, KittenImage.class);
+                startActivity(weatherIntent);
                 break;
             case R.id.newyorktimes:
                 Snackbar.make(binding.myToolbar, "Welcome to New York Times", Snackbar.LENGTH_LONG)
@@ -72,7 +72,7 @@ public class Weather extends AppCompatActivity {
                             Intent i = new Intent(Weather.this, MainActivity.class);
                             startActivity(i);
                         }).show();
-                //    Intent nytIntent = new Intent(KittenImage.this, NewYorkTimes.class);
+                //    Intent nytIntent = new Intent(Weather.this, NewYorkTimes.class);
                 //    startActivity(nytIntent);
                 break;
         }
@@ -97,7 +97,6 @@ public class Weather extends AppCompatActivity {
 
         binding = ActivityWeatherBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-//        setContentView(R.layout.activity_weather);
 
         // toolbar
         setSupportActionBar(binding.myToolbar);

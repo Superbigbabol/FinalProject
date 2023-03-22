@@ -5,7 +5,7 @@
     <item
         android:id="@+id/about"
         android:icon="@android:drawable/ic_dialog_info"
-        android:title=" Kitten Placeholder Images"
+        android:title="About"
         app:showAsAction="always" />
     <item
         android:id="@+id/nasa"
@@ -15,7 +15,7 @@
     <item
         android:id="@+id/kittenimage"
         android:icon="@drawable/kitten"
-        android:title="WeatherStack"
+        android:title="Kitten Images"
         app:showAsAction="always" />
     <item
         android:id="@+id/newyorktimes"

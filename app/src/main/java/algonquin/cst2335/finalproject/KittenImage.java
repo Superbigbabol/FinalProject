@@ -82,8 +82,8 @@ public class KittenImage extends AppCompatActivity {
                 break;
             case R.id.weather:
                 Toast.makeText(KittenImage.this, "Welcome to WeatherStack", Toast.LENGTH_LONG).show();
-            //    Intent weatherIntent = new Intent(KittenImage.this, Weather.class);
-            //    startActivity(weatherIntent);
+                Intent weatherIntent = new Intent(KittenImage.this, Weather.class);
+                startActivity(weatherIntent);
                 break;
             case R.id.nytimes:
                 Snackbar.make(binding.myToolbar, "Welcome to New York Times", Snackbar.LENGTH_LONG)
