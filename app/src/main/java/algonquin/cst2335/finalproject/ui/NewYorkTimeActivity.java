@@ -37,7 +37,7 @@ import java.util.List;
 
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class NewYorkTimeActivity extends BaseActivity implements View.OnClickListener {
     private NewsListAdapter newsListAdapter;
     private TextView tvSearch, tv_title;
     private RecyclerView recyclerView;
@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected int initContentView() {
-        return R.layout.activity_main;
+        return R.layout.activity_newyorktime;
     }
 
 
@@ -68,9 +68,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tvSearch.setOnClickListener(this);
         ivHelp.setOnClickListener(this);
         cbCollectionBook.setOnClickListener(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(NewYorkTimeActivity.this));
         newsListAdapter = new NewsListAdapter(R.layout.item_news_layout);
-        newsListAdapter.setEmptyView(LayoutInflater.from(MainActivity.this).inflate(R.layout.empty_layout, null));
+        newsListAdapter.setEmptyView(LayoutInflater.from(NewYorkTimeActivity.this).inflate(R.layout.empty_layout, null));
         recyclerView.setAdapter(newsListAdapter);
 
     }
@@ -82,7 +82,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        String search_content = PrefUtils.getString(MainActivity.this, "search_content", "");
+        String search_content = PrefUtils.getString(NewYorkTimeActivity.this, "search_content", "");
         if (!TextUtils.isEmpty(search_content)) {
             etTitle.setText(search_content);
             etTitle.setSelection(search_content.length());
@@ -108,7 +108,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                 if (docs != null && docs.size() > 0) {
                                     newsListAdapter.setNewData(docs);
                                 }
-                                Snackbar.make(MainActivity.this, view, "" + getResources().getText(R.string.search_ok_first) + docs.size() + getResources().getText(R.string.search_ok_second), Snackbar.LENGTH_SHORT).show();
+                                Snackbar.make(NewYorkTimeActivity.this, view, "" + getResources().getText(R.string.search_ok_first) + docs.size() + getResources().getText(R.string.search_ok_second), Snackbar.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -133,14 +133,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tvSearch:
                 String search = etTitle.getText().toString().trim();
                 if (TextUtils.isEmpty(search)) {
-                    Toast.makeText(MainActivity.this, getResources().getText(R.string.input_search), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewYorkTimeActivity.this, getResources().getText(R.string.input_search), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (hasChinese(search)) {
-                    Toast.makeText(MainActivity.this, getResources().getText(R.string.input_english), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewYorkTimeActivity.this, getResources().getText(R.string.input_english), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                PrefUtils.putString(MainActivity.this, "search_content", search);
+                PrefUtils.putString(NewYorkTimeActivity.this, "search_content", search);
                 search(search);
                 break;
 
