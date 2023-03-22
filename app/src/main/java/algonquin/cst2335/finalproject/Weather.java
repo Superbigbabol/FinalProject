@@ -51,9 +51,9 @@ public class Weather extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.kitten:
+            case R.id.about:
                 AlertDialog.Builder builder = new AlertDialog.Builder(Weather.this);
-                builder.setTitle("Kitten Placeholder Images").setMessage("Welcome to Kitten Placeholder Images").setPositiveButton("Ok", (dialogInterface, i) -> {}).create().show();
+                builder.setTitle("Weather").setMessage("Welcome to Weather App").setPositiveButton("Ok", (dialogInterface, i) -> {}).create().show();
                 break;
             // TODO: implement other menu items
             case R.id.nasa:
@@ -61,8 +61,8 @@ public class Weather extends AppCompatActivity {
                 //    Intent nasaIntent = new Intent(KittenImage.this, RoverPhotos.class);
                 //    startActivity(nasaIntent);
                 break;
-            case R.id.weather:
-                Toast.makeText(Weather.this, "Welcome to WeatherStack", Toast.LENGTH_LONG).show();
+            case R.id.kittenimage:
+                Toast.makeText(Weather.this, "Welcome to Kitten Placeholder Images", Toast.LENGTH_LONG).show();
                 //    Intent weatherIntent = new Intent(KittenImage.this, Weather.class);
                 //    startActivity(weatherIntent);
                 break;

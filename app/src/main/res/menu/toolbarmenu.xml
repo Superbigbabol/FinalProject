@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/kitten"
+        android:id="@+id/about"
         android:icon="@android:drawable/ic_dialog_info"
         android:title=" Kitten Placeholder Images"
         app:showAsAction="always" />
@@ -13,8 +13,8 @@
         android:title="Nasa Mars Rover photos"
         app:showAsAction="always" />
     <item
-        android:id="@+id/weather"
-        android:icon="@drawable/weatherapp"
+        android:id="@+id/kittenimage"
+        android:icon="@drawable/kitten"
         android:title="WeatherStack"
         app:showAsAction="always" />
     <item
