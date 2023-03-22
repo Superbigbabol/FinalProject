@@ -7,12 +7,103 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/homeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="24dp"
+        android:text="Welcome to the App!"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/nasaImgBtn"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/white"
+        android:scaleType="fitXY"
+        android:src="@drawable/nasa"
+        app:layout_constraintStart_toStartOf="@+id/kittenImgBtn"
+        app:layout_constraintTop_toBottomOf="@+id/homeText" />
+
+    <ImageButton
+        android:id="@+id/kittenImgBtn"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/white"
+        android:scaleType="fitXY"
+        android:src="@drawable/kitten"
+        app:layout_constraintStart_toStartOf="@+id/nytImgBtn"
+        app:layout_constraintTop_toBottomOf="@+id/nasaImgBtn" />
+
+    <ImageButton
+        android:id="@+id/nytImgBtn"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/white"
+        android:scaleType="fitXY"
+        android:src="@drawable/the_new_york_times"
+        app:layout_constraintStart_toStartOf="@+id/weatherImgBtn"
+        app:layout_constraintTop_toBottomOf="@+id/kittenImgBtn" />
+
+    <ImageButton
+        android:id="@+id/weatherImgBtn"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/white"
+        android:scaleType="fitXY"
+        android:src="@drawable/weatherstack"
+        app:layout_constraintEnd_toStartOf="@+id/weatherText"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nytImgBtn" />
+
+    <TextView
+        android:id="@+id/nasaText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nasa Mars Rover photos"
+        app:layout_constraintBottom_toBottomOf="@+id/nasaImgBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/nasaImgBtn"
+        app:layout_constraintTop_toTopOf="@+id/nasaImgBtn" />
+
+    <TextView
+        android:id="@+id/kittenText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kitten Placeholder images"
+        app:layout_constraintBottom_toBottomOf="@+id/kittenImgBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/kittenImgBtn"
+        app:layout_constraintTop_toTopOf="@+id/kittenImgBtn" />
+
+    <TextView
+        android:id="@+id/nytText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New York Times"
+        app:layout_constraintBottom_toBottomOf="@+id/nytImgBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/nytImgBtn"
+        app:layout_constraintTop_toTopOf="@+id/nytImgBtn" />
+
+    <TextView
+        android:id="@+id/weatherText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WeatherStack"
+        app:layout_constraintBottom_toBottomOf="@+id/weatherImgBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/weatherImgBtn"
+        app:layout_constraintTop_toTopOf="@+id/weatherImgBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
