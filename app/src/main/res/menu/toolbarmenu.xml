@@ -3,14 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/about"
+        android:id="@+id/kitten"
         android:icon="@android:drawable/ic_dialog_info"
-        android:title="About"
+        android:title=" Kitten Placeholder Images"
         app:showAsAction="always" />
     <item
         android:id="@+id/nasa"
         android:icon="@drawable/nasa"
-        android:title="NASA"
+        android:title="Nasa Mars Rover photos"
         app:showAsAction="always" />
     <item
         android:id="@+id/weather"
@@ -18,7 +18,7 @@
         android:title="WeatherStack"
         app:showAsAction="always" />
     <item
-        android:id="@+id/nytimes"
+        android:id="@+id/newyorktimes"
         android:icon="@drawable/the_new_york_times"
         android:title="New York Times"
         app:showAsAction="always" />

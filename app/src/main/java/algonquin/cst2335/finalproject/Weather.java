@@ -43,7 +43,7 @@ public class Weather extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.my_menu, menu);
+        getMenuInflater().inflate(R.menu.toolbarmenu, menu);
         return true;
     }
 
@@ -51,9 +51,9 @@ public class Weather extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.about:
+            case R.id.kitten:
                 AlertDialog.Builder builder = new AlertDialog.Builder(Weather.this);
-                builder.setTitle("About").setMessage("Version 1.0, created by Bo Shu").setPositiveButton("Ok", (dialogInterface, i) -> {}).create().show();
+                builder.setTitle("Kitten Placeholder Images").setMessage("Welcome to Kitten Placeholder Images").setPositiveButton("Ok", (dialogInterface, i) -> {}).create().show();
                 break;
             // TODO: implement other menu items
             case R.id.nasa:
@@ -66,13 +66,12 @@ public class Weather extends AppCompatActivity {
                 //    Intent weatherIntent = new Intent(KittenImage.this, Weather.class);
                 //    startActivity(weatherIntent);
                 break;
-            case R.id.nytimes:
+            case R.id.newyorktimes:
                 Snackbar.make(binding.myToolbar, "Welcome to New York Times", Snackbar.LENGTH_LONG)
                         .setAction("Back to Home Page", click -> {
                             Intent i = new Intent(Weather.this, MainActivity.class);
                             startActivity(i);
-                        })
-                        .show();
+                        }).show();
                 //    Intent nytIntent = new Intent(KittenImage.this, NewYorkTimes.class);
                 //    startActivity(nytIntent);
                 break;
