@@ -75,6 +75,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_tem_low_high" />
 
+<!--    consider recyclerview for the weather foreast, but it might change -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@id/rlv_future_weather"
         android:layout_width="360dp"
