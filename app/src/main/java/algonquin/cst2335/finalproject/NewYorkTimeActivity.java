@@ -1,4 +1,4 @@
-package algonquin.cst2335.finalproject.ui;
+package algonquin.cst2335.finalproject;
 
 
 
@@ -30,8 +30,8 @@ import algonquin.cst2335.finalproject.R;
 import  algonquin.cst2335.finalproject.adapter.NewsListAdapter;
 import  algonquin.cst2335.finalproject.base.BaseActivity;
 import algonquin.cst2335.finalproject.bean.NewsBean;
-import algonquin.cst2335.finalproject.untils.JsonUtil;
-import  algonquin.cst2335.finalproject.untils.PrefUtils;
+import algonquin.cst2335.finalproject.util.JsonUtil;
+import algonquin.cst2335.finalproject.util.PrefUtils;
 
 import java.util.List;
 

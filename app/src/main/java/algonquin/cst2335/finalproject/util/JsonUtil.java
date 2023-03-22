@@ -1,4 +1,4 @@
-package algonquin.cst2335.finalproject.untils;
+package algonquin.cst2335.finalproject.util;
 
 
 import android.text.TextUtils;
