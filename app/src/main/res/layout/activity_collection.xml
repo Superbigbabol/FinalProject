@@ -11,8 +11,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="@dimen/dp_10">
 
         <EditText
             android:id="@+id/etTitle"
@@ -21,7 +22,7 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@drawable/gray_biankuang_4_shape"
-            android:hint="@string/input_search"
+            android:hint="Please enter the search content"
             android:paddingHorizontal="15dp"
             android:paddingVertical="10dp"
             android:textColor="#101010"
@@ -32,7 +33,7 @@
             android:id="@+id/tvSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search"
+            android:text="Search"
             android:textColor="@color/purple_700"
             android:textSize="15dp" />
     </LinearLayout>
@@ -41,5 +42,5 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="@dimen/dp_10" />
 </LinearLayout>

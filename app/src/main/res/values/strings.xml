@@ -1,3 +1,27 @@
 <resources>
-    <string name="app_name">FinalProject</string>
+    <string name="app_name">纽约时报</string>
+    <string name="title">新闻</string>
+    <string name="search">搜索</string>
+    <string name="input_search">请输入搜索内容</string>
+    <string name="load">加载中......</string>
+    <string name="search_ok_first">搜索成功，</string>
+    <string name="search_ok_second"> 条新闻</string>
+    <string name="input_english">请输入英语</string>
+    <string name="dia_title">温馨提示</string>
+    <string name="leave_app">您想退出APP?</string>
+    <string name="ok">确定</string>
+    <string name="know">知道了</string>
+    <string name="help">帮助</string>
+    <string name="cancel">取消</string>
+    <string name="nodata">暂无数据</string>
+    <string name="news_use">本页面是新闻列表页面，在输入框里可以输入搜索的新闻，点击搜索可以进行相应的搜索，右上角有进入收藏界面的按钮，点击列表可进详情。</string>
+    <string name="collection">收藏</string>
+    <string name="collection_use">本页面是收藏页面，收藏的新闻可以在这里看到，点击列表可以进详情。</string>
+    <string name="content_use">本页面是新闻详情页面，可以详细的浏览新闻，以及收藏新闻。</string>
+    <string name="cancel_collection">取消收藏？</string>
+    <string name="cancel_collection_bottom">取消收藏</string>
+    <string name="collection_bottom">收藏成功</string>
+    <string name="have">有 </string>
+    <string name="details">详情</string>
+    <string name="num_coll">个收藏 </string>
 </resources>
