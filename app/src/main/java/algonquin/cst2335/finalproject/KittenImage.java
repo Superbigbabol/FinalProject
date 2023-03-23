@@ -20,6 +20,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
@@ -40,6 +44,7 @@ public class KittenImage extends AppCompatActivity {
     ActivityKittenImageBinding binding;
     RecyclerView.Adapter myAdapter;
     Bitmap kittenPic;
+    RequestQueue queue;
 
 //    ArrayList<FavouritePic> myFavourites = new ArrayList<>();
 // todo : create FavouritePic class and implement ViewModelProvider(this).get(XXXViewModel.class);
@@ -72,7 +77,10 @@ public class KittenImage extends AppCompatActivity {
         {
             case R.id.about:
                 AlertDialog.Builder builder = new AlertDialog.Builder(KittenImage.this);
-                builder.setTitle("About").setMessage("Version 1.0, created by Bo Shu").setPositiveButton("Ok", (dialogInterface, i) -> {}).create().show();
+                builder.setTitle("Help")
+                        .setMessage("Enter any width and height and fetch image if you like then save it in my favourite list")
+                        .setPositiveButton("Ok", (dialogInterface, i) -> {})
+                        .create().show();
                 break;
             // TODO: implement other menu items
             case R.id.nasa:
@@ -105,6 +113,9 @@ public class KittenImage extends AppCompatActivity {
 
         binding = ActivityKittenImageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        //instantiate request queue
+        queue = Volley.newRequestQueue(KittenImage.this);
 
         // toolbar
         setSupportActionBar(binding.myToolbar);
@@ -163,22 +174,26 @@ public class KittenImage extends AppCompatActivity {
 
         // fetch image from web
         binding.retrieveBtn.setOnClickListener(click -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
             String width = binding.imgWidth.getText().toString();
             String height = binding.imgHeight.getText().toString();
             editor.putString("ImgWidth", width);
             editor.putString("ImgHeight", height);
             editor.apply();
             String url = "https://placekitten.com/"+width+"/"+height;
-            // todo : retrieve image by Executor, but in the instruction not using Executor or AsyncTask, so this part needs to be changed to Volley
-            Executor thread = Executors.newSingleThreadExecutor();
-            thread.execute(() -> {
-                try(InputStream inputStream = new URL(url).openStream();) {
-                    kittenPic = BitmapFactory.decodeStream(inputStream);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                runOnUiThread(() -> binding.imageView.setImageBitmap(kittenPic));
-            });
+            ImageRequest imgReq = new ImageRequest(
+                    url,
+                    bitmap -> {
+                        binding.progressBar.setVisibility(View.GONE);
+                        binding.imageView.setImageBitmap(bitmap);
+                    },
+                    1024,
+                    1024,
+                    ImageView.ScaleType.CENTER,
+                    null,
+                    error -> Toast.makeText(KittenImage.this, "failed to get response "+error, Toast.LENGTH_SHORT).show()
+            );
+            queue.add(imgReq);
         });
 
         // click on save image, the image should be saved to disk, and the width, height, and date & time of when the image was saved should be stored on the database
