@@ -3,6 +3,8 @@ package algonquin.cst2335.finalproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,10 +34,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import algonquin.cst2335.finalproject.data.FavouritePic;
+import algonquin.cst2335.finalproject.data.KittenImageViewModel;
 import algonquin.cst2335.finalproject.databinding.ActivityKittenImageBinding;
 import algonquin.cst2335.finalproject.databinding.FavouriteImageBinding;
 
@@ -45,9 +50,8 @@ public class KittenImage extends AppCompatActivity {
     RecyclerView.Adapter myAdapter;
     Bitmap kittenPic;
     RequestQueue queue;
-
-//    ArrayList<FavouritePic> myFavourites = new ArrayList<>();
-// todo : create FavouritePic class and implement ViewModelProvider(this).get(XXXViewModel.class);
+    KittenImageViewModel favModel;
+    ArrayList<FavouritePic> myFavourites;
 
     // a collection of row objects shown in RecyclerView
     class MyRowHolder extends RecyclerView.ViewHolder {
@@ -114,6 +118,14 @@ public class KittenImage extends AppCompatActivity {
         binding = ActivityKittenImageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // instantiate ViewModel so that app can survive from rotation
+        favModel = new ViewModelProvider(this).get(KittenImageViewModel.class);
+        myFavourites = favModel.favPic.getValue();
+        if (myFavourites == null){
+            myFavourites = new ArrayList<FavouritePic>();
+            favModel.favPic.postValue(myFavourites);
+        }
+
         //instantiate request queue
         queue = Volley.newRequestQueue(KittenImage.this);
 
@@ -137,23 +149,20 @@ public class KittenImage extends AppCompatActivity {
                 holder.heightText.setText("");
                 holder.timeText.setText("");
 
-                // todo : temporary code here
-                File file = new File(getFilesDir(), "Kitten_600450.png");
-                kittenPic = BitmapFactory.decodeFile(file.getPath());
-                holder.thumbnail.setImageBitmap(kittenPic);
-//                String s = msg.get(position);
-                holder.widthText.setText(binding.imgWidth.getText().toString());
-                holder.heightText.setText(binding.imgHeight.getText().toString());
-                SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
-                String currentDateandTime = sdf.format(new Date());
-                holder.timeText.setText(currentDateandTime);
-
+                FavouritePic fp = myFavourites.get(position);
+                String width = ""+fp.getWidth();
+                String height = ""+fp.getHeight();
+                String savedTime = fp.getSavedTime();
+                File file = new File(getFilesDir(), "Kitten_"+width+height+".png");
+                holder.thumbnail.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
+                holder.widthText.setText(width);
+                holder.heightText.setText(height);
+                holder.timeText.setText(savedTime);
             }
 
             @Override
             public int getItemCount() {
-                return 1;
-//                return msg.size();
+                return myFavourites.size();
             }
 
             @Override
@@ -171,7 +180,6 @@ public class KittenImage extends AppCompatActivity {
         binding.imgWidth.setText(prefs.getString("ImgWidth", ""));
         binding.imgHeight.setText(prefs.getString("ImgHeight",""));
 
-
         // fetch image from web
         binding.retrieveBtn.setOnClickListener(click -> {
             binding.progressBar.setVisibility(View.VISIBLE);
@@ -186,6 +194,7 @@ public class KittenImage extends AppCompatActivity {
                     bitmap -> {
                         binding.progressBar.setVisibility(View.GONE);
                         binding.imageView.setImageBitmap(bitmap);
+                        kittenPic = bitmap;
                     },
                     1024,
                     1024,
@@ -198,29 +207,44 @@ public class KittenImage extends AppCompatActivity {
 
         // click on save image, the image should be saved to disk, and the width, height, and date & time of when the image was saved should be stored on the database
         binding.saveBtn.setOnClickListener(click -> {
-            String fileName = "Kitten_"+ binding.imgWidth.getText().toString() + binding.imgHeight.getText().toString() + ".png";
 
-            //check if kitten img exists
-            File file = new File(getFilesDir(), fileName);
-            if (file.exists()) {
-                // if exists, then use it and do something
-                kittenPic = BitmapFactory.decodeFile(file.getPath());
-            } else {
-                // not exist, create one and save on the disk
-                try (FileOutputStream fOut = openFileOutput(fileName, Context.MODE_PRIVATE);) {
-                    kittenPic.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-                    fOut.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            String width = binding.imgWidth.getText().toString();
+            String height = binding.imgHeight.getText().toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
+            String currentDateandTime = sdf.format(new Date());
+            // prevent app from crash due to keeping to click savebtn
+            if ( kittenPic != null )
+            {
+                String fileName = "Kitten_" + width + height + ".png";
+                //check if kitten img exists
+                File file = new File(getFilesDir(), fileName);
+                if (file.exists()) {
+                    // if exists, don't save to disk again
+                    // kittenPic = BitmapFactory.decodeFile(file.getPath());
+                } else {
+                    // not exist, create one and save on the disk
+                    try (FileOutputStream fOut = openFileOutput(fileName, Context.MODE_PRIVATE);) {
+                        kittenPic.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                        fOut.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-            // todo : notify RecyclerView
-            myAdapter.notifyItemInserted(1);
 
-            // after save the img, the EditText should be cleaned, so other width and height can be entered
-            binding.imageView.setImageBitmap(null);
-            binding.imgWidth.setText("");
-            binding.imgHeight.setText("");
+                FavouritePic fp = new FavouritePic(Integer.parseInt(width), Integer.parseInt(height), currentDateandTime);
+                myFavourites.add(fp);
+
+                //notify RecyclerView a new RowHolder is inserted
+                myAdapter.notifyItemInserted(myFavourites.size() - 1);
+
+                // after save the img, things should be cleaned, so other width and height can be entered
+                binding.imageView.setImageBitmap(null);
+                binding.imgWidth.setText("");
+                binding.imgHeight.setText("");
+                kittenPic = null;
+            } else {
+                Toast.makeText(this,"Nothing to save", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }
