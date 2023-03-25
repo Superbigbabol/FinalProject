@@ -3,6 +3,8 @@ package algonquin.cst2335.finalproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -68,40 +70,44 @@ public class KittenImage extends AppCompatActivity {
             super(itemView);
             itemView.setOnClickListener( click ->{
                 int position = getAbsoluteAdapterPosition();
-                FavouritePic clickedFavourite = myFavourites.get(position);
-                AlertDialog.Builder builder = new AlertDialog.Builder(KittenImage.this);
-                builder.setMessage("Do you want to delete this favourite record?")
-                        .setTitle("Caution!")
-                        .setPositiveButton("Yes", (dialogInterface, i) -> {
-                            Executor thread = Executors.newSingleThreadExecutor();
-                            thread.execute(() ->
-                            {
-                                fpDAO.deletePic(clickedFavourite);//delete from db
-                                myFavourites.remove(position);//also remove from ArrayList
-                                //back to main thread
-                                runOnUiThread(()->{
-                                    myAdapter.notifyItemRemoved(position);//update the recycler view
-                                    Snackbar.make(thumbnail, "You deleted favourite #"+position, Snackbar.LENGTH_LONG)
-                                            .setAction("Undo", clk -> {
-                                                Executor thread_2 = Executors.newSingleThreadExecutor();
-                                                thread_2.execute(() ->{
-                                                    //background
-                                                    fpDAO.insertPic(clickedFavourite);
-                                                    myFavourites.add(position, clickedFavourite);
-                                                    //main thread
-                                                    runOnUiThread(()->{
-                                                        myAdapter.notifyItemInserted(position);
-                                                    });
-                                                });
-                                            })
-                                            .show();
-                                });
-                            });
-                        })
-                        .setNegativeButton("No",(dialogInterface, i) -> {
-                            //do nothing
-                        })
-                        .create().show();
+                FavouritePic selected = myFavourites.get(position);
+                favModel.selectedPic.postValue(selected);
+
+//                int position = getAbsoluteAdapterPosition();
+//                FavouritePic clickedFavourite = myFavourites.get(position);
+//                AlertDialog.Builder builder = new AlertDialog.Builder(KittenImage.this);
+//                builder.setMessage("Do you want to delete this favourite record?")
+//                        .setTitle("Caution!")
+//                        .setPositiveButton("Yes", (dialogInterface, i) -> {
+//                            Executor thread = Executors.newSingleThreadExecutor();
+//                            thread.execute(() ->
+//                            {
+//                                fpDAO.deletePic(clickedFavourite);//delete from db
+//                                myFavourites.remove(position);//also remove from ArrayList
+//                                //back to main thread
+//                                runOnUiThread(()->{
+//                                    myAdapter.notifyItemRemoved(position);//update the recycler view
+//                                    Snackbar.make(thumbnail, "You deleted favourite #"+position, Snackbar.LENGTH_LONG)
+//                                            .setAction("Undo", clk -> {
+//                                                Executor thread_2 = Executors.newSingleThreadExecutor();
+//                                                thread_2.execute(() ->{
+//                                                    //background
+//                                                    fpDAO.insertPic(clickedFavourite);
+//                                                    myFavourites.add(position, clickedFavourite);
+//                                                    //main thread
+//                                                    runOnUiThread(()->{
+//                                                        myAdapter.notifyItemInserted(position);
+//                                                    });
+//                                                });
+//                                            })
+//                                            .show();
+//                                });
+//                            });
+//                        })
+//                        .setNegativeButton("No",(dialogInterface, i) -> {
+//                            //do nothing
+//                        })
+//                        .create().show();
             });
             thumbnail = itemView.findViewById(R.id.thumbnail);
             widthText = itemView.findViewById(R.id.width);
@@ -303,6 +309,11 @@ public class KittenImage extends AppCompatActivity {
             } else {
                 Toast.makeText(this,"Nothing to save", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        favModel.selectedPic.observe(this, (selectedPic) -> {
+            FavouriteDetailFragment detailFragment = new FavouriteDetailFragment(selectedPic);
+            getSupportFragmentManager().beginTransaction().add(R.id.fragmentLocation, detailFragment).addToBackStack("").commit();
         });
     }
 }
