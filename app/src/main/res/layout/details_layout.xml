@@ -58,10 +58,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Image Details"
+        android:text="@string/fragment_header"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_width"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/widthText"
+        app:layout_constraintTop_toTopOf="@+id/widthText" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_height"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/heightText"
+        app:layout_constraintTop_toTopOf="@+id/heightText" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_time"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/savedTimeText"
+        app:layout_constraintTop_toTopOf="@+id/savedTimeText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

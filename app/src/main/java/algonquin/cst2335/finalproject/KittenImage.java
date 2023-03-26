@@ -50,6 +50,12 @@ import algonquin.cst2335.finalproject.data.PicDatabase;
 import algonquin.cst2335.finalproject.databinding.ActivityKittenImageBinding;
 import algonquin.cst2335.finalproject.databinding.FavouriteImageBinding;
 
+/** Kitten Image activity allows fetching cute kitten images from https://placekitten.com/width/height,
+ * saving favourite images in database, listing all saved images in RecyclerView and showing details when viewing
+ *
+ * @author SHUBO
+ * @see AppCompatActivity
+ */
 public class KittenImage extends AppCompatActivity {
 
     ActivityKittenImageBinding binding;
@@ -60,14 +66,21 @@ public class KittenImage extends AppCompatActivity {
     KittenImageViewModel favModel;
     ArrayList<FavouritePic> myFavourites;
 
-
-    // inner class - a collection of row objects shown in RecyclerView
+    /** An inner class - to define each row presented in RecyclerView
+     *
+     * @see RecyclerView.ViewHolder
+     */
     class MyRowHolder extends RecyclerView.ViewHolder {
         ImageView thumbnail;
         TextView widthText;
         TextView heightText;
         TextView timeText;
         Button delBtn;
+
+        /** Construct MyRowHolder including two click events
+         *
+         * @param itemView an xml file describing the layout of each MyRowHolder
+         */
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener( click ->{
@@ -84,8 +97,8 @@ public class KittenImage extends AppCompatActivity {
                 int position = getAbsoluteAdapterPosition();
                 FavouritePic clickedFP = myFavourites.get(position);
                 AlertDialog.Builder builder = new AlertDialog.Builder(KittenImage.this);
-                builder.setMessage("Are you sure to delete this favourite record?")
-                        .setTitle("Caution!")
+                builder.setMessage(R.string.delete_prompt)
+                        .setTitle(R.string.delete_title)
                         .setPositiveButton("Yes", (dialogInterface, i) -> {
                             File file = new File(getFilesDir(), "Kitten_"+clickedFP.getWidth()+clickedFP.getHeight()+".png");
                             kittenPic = BitmapFactory.decodeFile(file.getPath());
@@ -140,8 +153,8 @@ public class KittenImage extends AppCompatActivity {
         {
             case R.id.about:
                 AlertDialog.Builder builder = new AlertDialog.Builder(KittenImage.this);
-                builder.setTitle("Help")
-                        .setMessage("Enter any width and height and fetch image if you like then save it in my favourite list")
+                builder.setTitle(R.string.help)
+                        .setMessage(R.string.help_content)
                         .setPositiveButton("Ok", (dialogInterface, i) -> {})
                         .create().show();
                 break;
@@ -275,7 +288,6 @@ public class KittenImage extends AppCompatActivity {
 
         // click on save image, the image should be saved to disk, and the width, height, and date & time of when the image was saved should be stored on the database
         binding.saveBtn.setOnClickListener(click -> {
-
             String width = binding.imgWidth.getText().toString();
             String height = binding.imgHeight.getText().toString();
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
@@ -317,7 +329,7 @@ public class KittenImage extends AppCompatActivity {
                     kittenPic = null;
                 }
             } else {
-                Toast.makeText(this,"Nothing to save", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -5,9 +5,21 @@
     <string name="kitten_fetchbtn">抓取图片</string>
     <string name="kitten_savebtn">保存图片</string>
     <string name="kitten_favourite">我的收藏图片</string>
-    <string name="home_header">欢迎来到应用程序!</string>
+    <string name="home_header">欢迎来到应用程序！</string>
     <string name="home_nasa">火星照片</string>
     <string name="home_kitten">小猫图片</string>
     <string name="home_nyt">纽约时报</string>
     <string name="home_weather">天气预报</string>
+    <string name="row_delete">删除</string>
+    <string name="fragment_header">图片简介</string>
+    <string name="help">使用方法</string>
+    <string name="help_content">1.输入宽高 2.抓取图片 3.保存图片</string>
+    <string name="delete_prompt">确认删除此收藏？</string>
+    <string name="delete_title">警告！</string>
+    <string name="saved">图片已存在！</string>
+    <string name="fragment_width">"宽度： "</string>
+    <string name="fragment_height">"高度： "</string>
+    <string name="fragment_time">"时间： "</string>
+    <string name="hint_width">输入宽度</string>
+    <string name="hint_height">输入高度</string>
 </resources>

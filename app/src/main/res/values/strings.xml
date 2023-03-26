@@ -23,4 +23,25 @@
     <string name="home_nyt">New York Times</string>
     <string name="home_weather">WeatherStack</string>
 
+    <!-- rowholder delete -->
+    <string name="row_delete">Delete</string>
+    <string name="delete_prompt">Are you sure to delete this favourite record?</string>
+    <string name="delete_title">Caution!</string>
+
+    <!-- fragment -->
+    <string name="fragment_header">Image Details</string>
+    <string name="fragment_width">Width : </string>
+    <string name="fragment_height">Height : </string>
+    <string name="fragment_time">Saved Time : </string>
+
+    <!-- menu -->
+    <string name="help">Help</string>
+    <string name="help_content">1.Enter width and height 2.fetch image 3.save it in favourite if you like</string>
+
+    <!-- Toast -->
+    <string name="saved">Nothing to save</string>
+
+    <!-- EditText hint -->
+    <string name="hint_width">Enter width</string>
+    <string name="hint_height">Enter height</string>
 </resources>
