@@ -97,25 +97,25 @@ public class KittenImage extends AppCompatActivity {
                                 file.delete();//delete file in disk
                                 runOnUiThread( () -> {
                                     myAdapter.notifyItemRemoved(position);//update the recycler view
-//                                    Snackbar.make(timeText, "You deleted favourite #"+position, Snackbar.LENGTH_LONG)
-//                                            .setAction("Undo", clk -> {
-//                                                Executor thread_2 = Executors.newSingleThreadExecutor();
-//                                                thread_2.execute(() -> {
-//                                                    long id = fpDAO.insertPic(clickedFP);
-//                                                    clickedFP.id = id;
-//                                                    myFavourites.add(position, clickedFP);
-//                                                    runOnUiThread(()->{
-//                                                        try (FileOutputStream fOut = openFileOutput("Kitten_"+clickedFP.getWidth()+clickedFP.getHeight()+".png", Context.MODE_PRIVATE);) {
-//                                                            kittenPic.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-//                                                            fOut.flush();
-//                                                        } catch (IOException e) {
-//                                                            e.printStackTrace();
-//                                                        }
-//                                                        myAdapter.notifyItemInserted(position);
-//                                                    });
-//                                                });
-//                                            })
-//                                            .show();
+                                    Snackbar.make(timeText, "You deleted favourite #"+position, Snackbar.LENGTH_LONG)
+                                            .setAction("Undo", clk -> {
+                                                Executor thread_2 = Executors.newSingleThreadExecutor();
+                                                thread_2.execute(() -> {
+                                                    long id = fpDAO.insertPic(clickedFP);
+                                                    clickedFP.id = id;
+                                                    myFavourites.add(position, clickedFP);
+                                                    runOnUiThread(()->{
+                                                        try (FileOutputStream fOut = openFileOutput("Kitten_"+clickedFP.getWidth()+clickedFP.getHeight()+".png", Context.MODE_PRIVATE);) {
+                                                            kittenPic.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                                            fOut.flush();
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                        myAdapter.notifyItemInserted(position);
+                                                    });
+                                                });
+                                            })
+                                            .show();
                                 });
                             });
                         })
@@ -303,9 +303,8 @@ public class KittenImage extends AppCompatActivity {
                     // insert into db
                     Executor thread1 = Executors.newSingleThreadExecutor();
                     thread1.execute(()->{
-//                        long id = fpDAO.insertPic(fp);
-                        fpDAO.insertPic(fp);
-                        //fp.id = id;//database is saying what the id is and assign to the ChatMessage obj
+                        long id = fpDAO.insertPic(fp);
+                        fp.id = id;//assign id returned from db to object.id, so that they can match when doing transcation
                     });
 
                     //notify RecyclerView a new RowHolder is inserted

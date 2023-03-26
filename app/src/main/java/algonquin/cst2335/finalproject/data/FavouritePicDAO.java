@@ -11,7 +11,7 @@ import java.util.List;
 public interface FavouritePicDAO {
 
     @Insert
-    public void insertPic(FavouritePic fp);
+    public long insertPic(FavouritePic fp);
 
     @Query("Select * from FavouritePic")
     public List<FavouritePic> getAllPic();
