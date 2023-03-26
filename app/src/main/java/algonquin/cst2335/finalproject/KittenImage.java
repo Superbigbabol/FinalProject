@@ -101,7 +101,8 @@ public class KittenImage extends AppCompatActivity {
 //                                            .setAction("Undo", clk -> {
 //                                                Executor thread_2 = Executors.newSingleThreadExecutor();
 //                                                thread_2.execute(() -> {
-//                                                    fpDAO.insertPic(clickedFP);
+//                                                    long id = fpDAO.insertPic(clickedFP);
+//                                                    clickedFP.id = id;
 //                                                    myFavourites.add(position, clickedFP);
 //                                                    runOnUiThread(()->{
 //                                                        try (FileOutputStream fOut = openFileOutput("Kitten_"+clickedFP.getWidth()+clickedFP.getHeight()+".png", Context.MODE_PRIVATE);) {
@@ -176,27 +177,6 @@ public class KittenImage extends AppCompatActivity {
         binding = ActivityKittenImageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // create db
-        PicDatabase db = Room.databaseBuilder(getApplicationContext(), PicDatabase.class, "KittenImages").build();
-        fpDAO = db.fpDAO();
-
-        // instantiate ViewModel so that app can survive from rotation
-        favModel = new ViewModelProvider(this).get(KittenImageViewModel.class);
-        myFavourites = favModel.favPic.getValue();
-        if (myFavourites == null){
-            myFavourites = new ArrayList<FavouritePic>();
-
-            // get kitten images from db
-            Executor thread = Executors.newSingleThreadExecutor();
-            thread.execute(()->{
-                myFavourites.addAll(fpDAO.getAllPic());
-            });
-            favModel.favPic.postValue(myFavourites);
-        }
-
-        //instantiate request queue
-        queue = Volley.newRequestQueue(KittenImage.this);
-
         // toolbar
         setSupportActionBar(binding.myToolbar);
 
@@ -238,6 +218,23 @@ public class KittenImage extends AppCompatActivity {
                 return super.getItemViewType(position);
             }
         };
+
+        // create db
+        PicDatabase db = Room.databaseBuilder(getApplicationContext(), PicDatabase.class, "KittenImages").build();
+        fpDAO = db.fpDAO();
+
+        // instantiate ViewModel so that app can survive from rotation
+        favModel = new ViewModelProvider(this).get(KittenImageViewModel.class);
+        myFavourites = favModel.favPic.getValue();
+        if (myFavourites == null){
+            myFavourites = new ArrayList<FavouritePic>();
+            // get kitten images from db
+            Executor thread = Executors.newSingleThreadExecutor();
+            thread.execute(()->{
+                myFavourites.addAll(fpDAO.getAllPic());
+            });
+            favModel.favPic.postValue(myFavourites);
+        }
         binding.imgRecyclerView.setAdapter(myAdapter);
         binding.imgRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -247,6 +244,9 @@ public class KittenImage extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         binding.imgWidth.setText(prefs.getString("ImgWidth", ""));
         binding.imgHeight.setText(prefs.getString("ImgHeight",""));
+
+        //instantiate request queue
+        queue = Volley.newRequestQueue(KittenImage.this);
 
         // fetch image from web
         binding.retrieveBtn.setOnClickListener(click -> {
@@ -303,7 +303,9 @@ public class KittenImage extends AppCompatActivity {
                     // insert into db
                     Executor thread1 = Executors.newSingleThreadExecutor();
                     thread1.execute(()->{
+//                        long id = fpDAO.insertPic(fp);
                         fpDAO.insertPic(fp);
+                        //fp.id = id;//database is saying what the id is and assign to the ChatMessage obj
                     });
 
                     //notify RecyclerView a new RowHolder is inserted
