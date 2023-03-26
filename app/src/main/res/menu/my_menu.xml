@@ -22,4 +22,5 @@
         android:icon="@drawable/the_new_york_times"
         android:title="New York Times"
         app:showAsAction="always" />
+
 </menu>

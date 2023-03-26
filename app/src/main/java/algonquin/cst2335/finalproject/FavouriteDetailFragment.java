@@ -26,21 +26,14 @@ public class FavouriteDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
         DetailsLayoutBinding binding = DetailsLayoutBinding.inflate(inflater);
-        String width = ""+selected.getWidth();
-        String height = ""+selected.getHeight();
         // get img from disk and resize it to original size
-        String filePath = getContext().getFilesDir().getPath()+"/Kitten_"+width+height+".png";
+        String filePath = getContext().getFilesDir().getPath()+"/Kitten_"+selected.getWidth()+selected.getHeight()+".png";
         Bitmap resized = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(filePath),selected.getWidth(),selected.getHeight(),false);
         binding.resizedImage.setImageBitmap(resized);
-        binding.widthText.setText("Width : "+width);
-        binding.heightText.setText("Height : "+height);
+        binding.widthText.setText("Width : "+selected.getWidth());
+        binding.heightText.setText("Height : "+selected.getHeight());
         binding.savedTimeText.setText("Saved Time : "+selected.getSavedTime());
-        binding.deleteBtn.setOnClickListener( click -> {
-            // todo : implement delete action
-
-        });
         return binding.getRoot();
     }
 
