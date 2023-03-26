@@ -25,7 +25,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
@@ -37,10 +39,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import algonquin.cst2335.finalproject.data.MarsPhoto;
+import algonquin.cst2335.finalproject.data.MarsPhotoViewModel;
 import algonquin.cst2335.finalproject.databinding.ActivityMarsPhotoBinding;
 import algonquin.cst2335.finalproject.databinding.ResultImageBinding;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class MarsPhotoActivity extends AppCompatActivity {
+
+    private ArrayList<MarsPhoto> photoList;
+
 
 
     private static final String API_KEY = "LjA7bPstC59frg4qGHOJZ82NgforWzwuezT4eJKp";
@@ -114,6 +124,16 @@ public class MarsPhotoActivity extends AppCompatActivity {
         binding = ActivityMarsPhotoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+       MarsPhotoViewModel mvm = new ViewModelProvider(this).get(MarsPhotoViewModel.class);
+
+        photoList = mvm.photos.getValue();
+
+        if(photoList == null){
+            mvm.photos.postValue(photoList = new ArrayList<MarsPhoto>());
+        }
+
+
+
         // toolbar
         setSupportActionBar(binding.myToolbar);
 
@@ -129,44 +149,25 @@ public class MarsPhotoActivity extends AppCompatActivity {
             @Override
             public void onBindViewHolder(@NonNull MarsPhotoActivity.MyRowHolder holder, int position) {
                 // ensure MyRowHolder is initialized with correct value
-                holder.thumbnail.setImageBitmap(null);
-                holder.roverName.setText("");
-
-                // todo : temporary code here
-
-                ;
-
-                File file = new File(getFilesDir(), "search0.bmp");
-                marsPic  = BitmapFactory.decodeFile(file.getPath());
-                holder.thumbnail.setImageBitmap(marsPic);
-                holder.roverName.setText("sol");
-
-
-                /*
-
-
-                File file = new File(getFilesDir(), "Kitten_600450.png");
-                kittenPic = BitmapFactory.decodeFile(file.getPath());
-                holder.thumbnail.setImageBitmap(kittenPic);
-//                String s = msg.get(position);
-                holder.widthText.setText(binding.imgWidth.getText().toString());
-                holder.heightText.setText(binding.imgHeight.getText().toString());
-                SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
-                String currentDateandTime = sdf.format(new Date());
-                holder.timeText.setText(currentDateandTime);
-
-                 */
-
+//                holder.thumbnail.setImageBitmap(null);
+//                holder.roverName.setText("");
+                String imgUrl = photoList.get(position).getImgSrc();
+                String roverName = photoList.get(position).getRoverName();
+                Glide.with(holder.thumbnail.getContext())
+                        .load(imgUrl)
+                        .thumbnail(0.5f)
+                        .into(holder.thumbnail);
+                holder.roverName.setText(roverName);
             }
 
             @Override
             public int getItemCount() {
-                return 1;
-//                return msg.size();
+                return photoList.size();
             }
 
             @Override
             public int getItemViewType(int position) {
+
                 return super.getItemViewType(position);
             }
         };
@@ -190,32 +191,13 @@ public class MarsPhotoActivity extends AppCompatActivity {
 
             editor.apply();
 
+
             if (!sol.isEmpty()) {
                 retrievePhotos(sol);
             }
 
+            mvm.photos.postValue(photoList);
 
-            /*
-            String url = "https://placekitten.com/"+width+"/"+height;
-
-            // todo : retrieve image by Executor, but in the instruction not using Executor or AsyncTask, so this part needs to be changed to Volley
-            Executor thread = Executors.newSingleThreadExecutor();
-            thread.execute(() -> {
-                try(InputStream inputStream = new URL(url).openStream();) {
-                    kittenPic = BitmapFactory.decodeStream(inputStream);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                runOnUiThread(() -> binding.imageView.setImageBitmap(kittenPic));
-            });
-
-             */
-
-            myAdapter.notifyItemInserted(1);
-
-            // after save the img, the EditText should be cleaned, so other width and height can be entered
-            binding.imageView.setImageBitmap(null);
-            binding.sol.setText("");
 
         });
 
@@ -250,41 +232,55 @@ public class MarsPhotoActivity extends AppCompatActivity {
         });
     }
 
-
     private void retrievePhotos(String sol) {
         String url = String.format("%s?sol=%s&api_key=%s", BASE_URL, sol, API_KEY);
-        JsonArrayRequest request = new JsonArrayRequest(
-                Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONArray>() {
+        photoList = new ArrayList<MarsPhoto>();
+
+
+
+
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
                     @Override
-                    public void onResponse(JSONArray response) {
-                        List<MarsPhoto> photos = new ArrayList<>();
+                    public void onResponse(JSONObject response) {
+                        // Parse the JSON data here
+
                         try {
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject object = response.getJSONObject(i);
-                                String id = object.getString("id");
-                                String imgSrc = object.getString("img_src");
-                                String roverName = object.getString("rover__name");
-                                String cameraName = object.getString("camera__name");
-                                photos.add(new MarsPhoto(id, imgSrc, roverName, cameraName));
+                            JSONArray photosArray = response.getJSONArray("photos");
+                            for (int i = 0; i < photosArray.length(); i++) {
+                                JSONObject photoObject = photosArray.getJSONObject(i);
+                                String id = photoObject.getString("id");
+                                String imageUrl = photoObject.getString("img_src");
+                                JSONObject cameraObject = photoObject.getJSONObject("camera");
+                                String cameraName = cameraObject.getString("full_name");
+                                JSONObject roverObject = photoObject.getJSONObject("rover");
+                                String roverName = roverObject.getString("name");
+
+
+
+                                MarsPhoto photo = new MarsPhoto(id, imageUrl, roverName, cameraName);
+                                photoList.add(photo);
+
                             }
-                          //  myAdapter.updatePhotos(photos);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-                },
-                new Response.ErrorListener() {
+                }, new Response.ErrorListener() {
+
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        Toast.makeText(MarsPhotoActivity.this, "Error retrieving photos", Toast.LENGTH_SHORT).show();
+                        // Handle errors here
                     }
                 });
-        RequestQueue queue = Volley.newRequestQueue(this);
-        queue.add(request);
+
+        queue.add(jsonObjectRequest);
+
+
     }
 
 }
