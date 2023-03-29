@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -36,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,7 +162,6 @@ public class MarsPhotoActivity extends AppCompatActivity {
                 Picasso.get().load(imgUrl).into(holder.thumbnail);
 
 
-
                 holder.roverName.setText(roverName);
             }
 
@@ -192,13 +194,12 @@ public class MarsPhotoActivity extends AppCompatActivity {
             editor.putString("solarDayOnMars", sol);
 
             editor.apply();
-
+            RequestQueue queue = Volley.newRequestQueue(this);
 
             if (!sol.isEmpty()) {
                 String url = String.format("%s?sol=%s&api_key=%s", BASE_URL, sol, API_KEY);
                 photoList = new ArrayList<>();
 
-                RequestQueue queue = Volley.newRequestQueue(this);
 
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, (response) -> {
                     try {
@@ -214,6 +215,7 @@ public class MarsPhotoActivity extends AppCompatActivity {
 
                             MarsPhoto photo = new MarsPhoto(id, imageUrl, roverName, cameraName);
                             photoList.add(photo);
+
                         }
 
                         mvm.photos.postValue(photoList);
@@ -227,6 +229,22 @@ public class MarsPhotoActivity extends AppCompatActivity {
                         });
                 queue.add(request);
             }
+//            if (photoList != null) {
+//                ImageRequest imgReq = new ImageRequest(photoList.get(photoList.size()).getImgSrc(), (bitmap) -> {
+//                    try {
+//                        // Do something with loaded bitmap...
+//                        Bitmap image = bitmap;
+//                        image.compress(Bitmap.CompressFormat.PNG, 100, MarsPhotoActivity.this.openFileOutput(photoList.get(photoList.size()).getId() + ".jpg", Activity.MODE_PRIVATE));
+//                        binding.imageView.setImageBitmap(image);
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
+//                });
+//
+//                queue.add(imgReq);
+//
+//            }
 
 
 //            mvm.photos.postValue(photoList);
@@ -263,7 +281,7 @@ public class MarsPhotoActivity extends AppCompatActivity {
             binding.imgHeight.setText("");
 
              */
-                });
+        });
 
     /*
     private void retrievePhotos(String sol) {
@@ -335,5 +353,5 @@ public class MarsPhotoActivity extends AppCompatActivity {
 //                });
 
 
-}
     }
+}
