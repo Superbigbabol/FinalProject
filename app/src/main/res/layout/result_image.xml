@@ -10,8 +10,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@android:drawable/btn_star_big_on" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/roverName"
