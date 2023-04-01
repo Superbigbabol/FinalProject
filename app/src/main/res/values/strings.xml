@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">FinalProject</string>
 
+    <!-- kitten app strings -->
+    <string name="kitten_header">Kitten Placeholder Images</string>
+    <string name="kitten_fetchbtn">FETCH IMAGE</string>
+    <string name="kitten_savebtn">SAVE IMAGE</string>
+    <string name="kitten_favourite">My Favourite Images</string>
+
+
     <string-array name="cities">
         <item>Ottawa</item>
         <item>Toronto</item>
@@ -8,6 +15,16 @@
         <item>Montreal</item>
         <item>Vancouver</item>
     </string-array>
+
+
+    <!-- home page strings -->
+    <string name="home_header">Welcome to our app!</string>
+    <string name="home_nasa">Nasa Mars Rover photos</string>
+    <string name="home_kitten">Kitten Placeholder images</string>
+    <string name="home_nyt">New York Times</string>
+    <string name="home_weather">WeatherStack</string>
+
+    <!-- New York Times app strings -->
     <string name="title">新闻</string>
     <string name="search">搜索</string>
     <string name="input_search">请输入搜索内容</string>
@@ -32,4 +49,5 @@
     <string name="have">有 </string>
     <string name="details">详情</string>
     <string name="num_coll">个收藏 </string>
+
 </resources>

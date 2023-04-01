@@ -1,12 +1,24 @@
 package algonquin.cst2335.finalproject.data;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class FavouritePic {
 
-    private int width;
-    private int height;
-    private String savedTime;
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    public int id;
 
-    public FavouritePic(){}
+    @ColumnInfo(name = "width")
+    private int width;
+
+    @ColumnInfo(name = "height")
+    private int height;
+
+    @ColumnInfo(name = "savedTime")
+    private String savedTime;
 
     public FavouritePic(int width, int height, String savedTime){
         this.width = width;
