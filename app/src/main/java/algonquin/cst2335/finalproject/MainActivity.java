@@ -32,11 +32,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "You are in Kitten Image", Toast.LENGTH_SHORT).show();
         });
 
-//        binding.nytImgBtn.setOnClickListener( click -> {
-//            Intent nytIntent = new Intent(MainActivity.this, NewYorkTimes.class);
-//            startActivity(nytIntent);
-//            Toast.makeText(MainActivity.this, "You are in New York Times", Toast.LENGTH_SHORT).show();
-//        });
+        binding.nytImgBtn.setOnClickListener( click -> {
+            Intent nytIntent = new Intent(MainActivity.this, NewYorkTimeActivity.class);
+            startActivity(nytIntent);
+            Toast.makeText(MainActivity.this, "You are in New York Times", Toast.LENGTH_SHORT).show();
+        });
 
         binding.weatherImgBtn.setOnClickListener( click -> {
             Intent weatherIntent = new Intent(MainActivity.this, Weather.class);

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/purple_500"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <LinearLayout
+            android:id="@+id/ll_common_back"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_common_back"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/md_nav_back"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/common_title_top"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+
+
+            <ImageView
+                android:id="@+id/cbCollectionBook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:visibility="gone"
+                android:layout_toLeftOf="@+id/ivHelp"
+                android:src="@drawable/ic_action_bookmark" />
+            <ImageView
+                android:id="@+id/ivHelp"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/help" />
+            <CheckBox
+                android:id="@+id/cbCollection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:visibility="gone"
+                android:layout_toLeftOf="@+id/ivHelp"
+                android:background="@android:color/transparent"
+                android:button="@drawable/collection_selector" />
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
