@@ -65,7 +65,7 @@ public class MarsPhotoActivity extends AppCompatActivity {
     Bitmap marsPic;
     String url0 = "http://mars.jpl.nasa.gov/msl-raw-images/msss/01000/mcam/1000MR0044630890503649E02_DXXX.jpg";
     String url1 = "https://placekitten.com/100/100";
-    ArrayList<Bitmap>  bitmapList;
+    ArrayList<Bitmap>  bitmapList=new ArrayList<>();
 
 
 
@@ -157,12 +157,43 @@ public class MarsPhotoActivity extends AppCompatActivity {
                 // ensure MyRowHolder is initialized with correct value
 //                holder.thumbnail.setImageBitmap(null);
 //                holder.roverName.setText("");
-                String imgUrl = photoList.get(position).getImgSrc();
+                String imageUrl = photoList.get(position).getImgSrc();
                 String roverName = photoList.get(position).getRoverName();
 
 
+
+                ImageRequest imageRequest = new ImageRequest(
+                        imageUrl,
+                        bitmap ->{
+
+                            public void onResponse(Bitmap response) {
+                                // Use Glide to display the bitmap in the ImageView
+                                Glide.with(mContext)
+                                        .load(response)
+                                        .centerCrop()
+                                        .placeholder(R.drawable.placeholder_image)
+                                        .error(R.drawable.error_image)
+                                        .into(holder.imageView);
+                            }
+                        },
+                        0, 0,
+                        ImageView.ScaleType.CENTER_CROP,
+                        Bitmap.Config.RGB_565,
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                error.printStackTrace();
+                            }
+                        }
+                );
+                Volley.newRequestQueue(mContext).add(imageRequest);
+
+
+
+
+
 //                Picasso.get().load(imgUrl).into(holder.thumbnail);
-                holder.thumbnail.setImageBitmap(bitmapList.get(position));
+//                holder.thumbnail.setImageBitmap(bitmapList.get(position));
 
 
                 holder.roverName.setText(roverName);
@@ -227,26 +258,26 @@ public class MarsPhotoActivity extends AppCompatActivity {
 
                             MarsPhoto photo = new MarsPhoto(id, imageUrl, roverName, cameraName);
                             photoList.add(photo);
-
-                            ImageRequest imgReq = new ImageRequest(url1, (bitmap) -> {
-                                try {
-                                    // Do something with loaded bitmap...
-                                    Bitmap image = bitmap;
-                                    image.compress(Bitmap.CompressFormat.PNG, 100, MarsPhotoActivity.this.openFileOutput(id + ".jpg", Activity.MODE_PRIVATE));
-                                    bitmapList.add(image);
-
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                }
-                            }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
-                            });
-                            queue.add(imgReq);
+//
+//                            ImageRequest imgReq = new ImageRequest(url1, (bitmap) -> {
+//                                try {
+//                                    // Do something with loaded bitmap...
+//                                    Bitmap image = bitmap;
+//                                    image.compress(Bitmap.CompressFormat.PNG, 100, MarsPhotoActivity.this.openFileOutput(id + ".jpg", Activity.MODE_PRIVATE));
+//                                    bitmapList.add(image);
+//
+//                                } catch (FileNotFoundException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
+//                            });
+//                            queue.add(imgReq);
 
 
                         }
 
                         mvm.photos.postValue(photoList);
-                        myAdapter.notifyItemInserted(photoList.size() - 1);
+//                        myAdapter.notifyItemInserted(photoList.size() - 1);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -261,7 +292,7 @@ public class MarsPhotoActivity extends AppCompatActivity {
             }
 
 
-              mvm.photos.postValue(photoList);
+//              mvm.photos.postValue(photoList);
 //            myAdapter.notifyItemInserted(photoList.size() );
 
 
