@@ -56,7 +56,7 @@ public class MarsPhotoActivity extends AppCompatActivity {
     private ArrayList<MarsPhoto> photoList;
 
 
-    private static final String API_KEY = "LjA7bPstC59frg4qGHOJZ82NgforWzwuezT4eJKp";
+    private static final String API_KEY = "CrXmeT8aWrb0WFvtkfJDwf2ue6BVIn4LsDJRScxV";
     private static final String BASE_URL = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos";
 
 
@@ -161,20 +161,20 @@ public class MarsPhotoActivity extends AppCompatActivity {
                 String roverName = photoList.get(position).getRoverName();
 
 
-
+/*
                 ImageRequest imageRequest = new ImageRequest(
                         imageUrl,
                         bitmap ->{
 
-                            public void onResponse(Bitmap response) {
+//                            public void onResponse(Bitmap response) {
                                 // Use Glide to display the bitmap in the ImageView
-                                Glide.with(mContext)
-                                        .load(response)
+                                Glide.with( holder.itemView.getContext())
+                                        .load(bitmap)
                                         .centerCrop()
                                         .placeholder(R.drawable.placeholder_image)
                                         .error(R.drawable.error_image)
-                                        .into(holder.imageView);
-                            }
+                                        .into(holder.thumbnail);
+//                            }
                         },
                         0, 0,
                         ImageView.ScaleType.CENTER_CROP,
@@ -186,14 +186,13 @@ public class MarsPhotoActivity extends AppCompatActivity {
                             }
                         }
                 );
-                Volley.newRequestQueue(mContext).add(imageRequest);
+                Volley.newRequestQueue(holder.itemView.getContext()).add(imageRequest);
 
-
-
+ */
 
 
 //                Picasso.get().load(imgUrl).into(holder.thumbnail);
-//                holder.thumbnail.setImageBitmap(bitmapList.get(position));
+                holder.thumbnail.setImageBitmap(bitmapList.get(position));
 
 
                 holder.roverName.setText(roverName);
@@ -246,8 +245,8 @@ public class MarsPhotoActivity extends AppCompatActivity {
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, (response) -> {
                     try {
                         JSONArray photosArray = response.getJSONArray("photos");
-//                        for (int i = 0; i < photosArray.length(); i++) {
-                        for (int i = 0; i < 1; i++) {
+                        for (int i = 0; i < photosArray.length(); i++) {
+//                        for (int i = 0; i < 1; i++) {
                             JSONObject photoObject = photosArray.getJSONObject(i);
                             String id = photoObject.getString("id");
                             String imageUrl = photoObject.getString("img_src");
@@ -258,26 +257,28 @@ public class MarsPhotoActivity extends AppCompatActivity {
 
                             MarsPhoto photo = new MarsPhoto(id, imageUrl, roverName, cameraName);
                             photoList.add(photo);
-//
-//                            ImageRequest imgReq = new ImageRequest(url1, (bitmap) -> {
-//                                try {
-//                                    // Do something with loaded bitmap...
-//                                    Bitmap image = bitmap;
-//                                    image.compress(Bitmap.CompressFormat.PNG, 100, MarsPhotoActivity.this.openFileOutput(id + ".jpg", Activity.MODE_PRIVATE));
-//                                    bitmapList.add(image);
-//
-//                                } catch (FileNotFoundException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
-//                            });
-//                            queue.add(imgReq);
+
+                            ImageRequest imgReq = new ImageRequest(url1, (bitmap) -> {
+                                try {
+                                    // Do something with loaded bitmap...
+                                    Bitmap image = bitmap;
+                                    image.compress(Bitmap.CompressFormat.PNG, 100, MarsPhotoActivity.this.openFileOutput(id + ".jpg", Activity.MODE_PRIVATE));
+                                    bitmapList.add(image);
+
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                            }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
+                            });
+                            queue.add(imgReq);
 
 
                         }
 
                         mvm.photos.postValue(photoList);
-//                        myAdapter.notifyItemInserted(photoList.size() - 1);
+//                        if(photoList.size() == bitmapList.size()){
+                        myAdapter.notifyItemInserted(photoList.size() - 1);
+//                    }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
