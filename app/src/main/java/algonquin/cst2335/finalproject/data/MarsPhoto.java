@@ -1,12 +1,22 @@
 package algonquin.cst2335.finalproject.data;
 
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class MarsPhoto {
-
-
+     @PrimaryKey
+    @ColumnInfo(name="id")
+     @NonNull
     private String id;
+    @ColumnInfo(name="imgSrc")
     private String imgSrc;
+    @ColumnInfo(name="roverName")
     private String roverName;
+    @ColumnInfo(name="cameraName")
     private String cameraName;
 
     public MarsPhoto(String id, String imgSrc, String roverName, String cameraName) {
