@@ -48,7 +48,7 @@ public class NewYorkTimeActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected int initContentView() {
-        return R.layout.activity_main;
+        return R.layout.activity_newyorktime;
     }
 
     /**
