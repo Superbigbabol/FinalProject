@@ -24,7 +24,7 @@
             android:background="@drawable/gray_biankuang_4_shape"
             android:hint="Please enter the search content"
             android:paddingHorizontal="15dp"
-            android:paddingVertical="10dp"
+            android:paddingVertical="@dimen/dp_10"
             android:textColor="#101010"
             android:textColorHint="#c8c8c8"
             android:textSize="12dp" />

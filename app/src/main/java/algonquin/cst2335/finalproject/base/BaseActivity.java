@@ -1,5 +1,6 @@
 package algonquin.cst2335.finalproject.base;
 
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
@@ -15,16 +16,17 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import algonquin.cst2335.finalproject.R;
-
 import java.util.ArrayList;
 
+/**
+ * Activity的基类
+ */
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected View view;
     private BaseProgressDialog mProgressDialog = null;
     /**
-     * the type of internet
+     * 网络类型
      */
 
 
@@ -71,14 +73,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //set automatically pop up the soft keyboard
+        //设置不自动弹出软键盘
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
 
     }
 
 
-    //click on the blank space and the software dis disappears
+    //点击空白处软件盘消失
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -94,7 +96,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // finish Activity& move it form the stack.
+        // 结束Activity&从堆栈中移除
     }
 
 
@@ -114,7 +116,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
             return super.dispatchTouchEvent(ev);
         }
-        // most important， underless every components will have no TouchEvent
+        // 必不可少，否则所有的组件都不会有TouchEvent了
         if (getWindow().superDispatchTouchEvent(ev)) {
             return true;
         }
@@ -125,7 +127,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public boolean isShouldHideInput(View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {
             int[] leftTop = {0, 0};
-            //get the current position of the input box
+            //获取输入框当前的location位置
             v.getLocationInWindow(leftTop);
             int left = leftTop[0];
             int top = leftTop[1];
@@ -143,24 +145,24 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * initial contentView
+     * 初始化contentView
      *
-     * @return  returns contentView's layout id
+     * @return 返回contentView的layout id
      */
     protected abstract int initContentView();
 
     /**
-     * initial View，implement findViewById opreation.
+     * 初始化View，执行findViewById操作
      */
     protected abstract void initView();
 
     /**
-     * initial listener
+     * 初始化监听器
      */
     protected abstract void initListener();
 
     /**
-     * initial tata
+     * 初始化数据
      */
     protected abstract void initData();
 

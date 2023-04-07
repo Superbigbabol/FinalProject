@@ -1,12 +1,7 @@
-package algonquin.cst2335.finalproject.ui;
-
-
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -17,25 +12,30 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.gyf.immersionbar.ImmersionBar;
+import com.homework.news_master.R;
 
-import algonquin.cst2335.finalproject.R;
-import  algonquin.cst2335.finalproject.adapter.NewsListAdapter;
-import  algonquin.cst2335.finalproject.base.BaseActivity;
-import algonquin.cst2335.finalproject.bean.NewsBean;
-import algonquin.cst2335.finalproject.untils.JsonUtil;
-import  algonquin.cst2335.finalproject.untils.PrefUtils;
 
 import java.util.List;
 
-
+import algonquin.cst2335.finalproject.adapter.NewsListAdapter;
+import algonquin.cst2335.finalproject.base.BaseActivity;
+import algonquin.cst2335.finalproject.bean.NewsBean;
+import utils.AppUtils;
+import utils.JsonUtil;
+import utils.PrefUtils;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private NewsListAdapter newsListAdapter;
@@ -51,7 +51,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         return R.layout.activity_main;
     }
 
-
+    /**
+     * 初始化控件
+     */
     @Override
     protected void initView() {
         recyclerView = findViewById(R.id.recyclerView);
@@ -69,6 +71,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ivHelp.setOnClickListener(this);
         cbCollectionBook.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+//        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         newsListAdapter = new NewsListAdapter(R.layout.item_news_layout);
         newsListAdapter.setEmptyView(LayoutInflater.from(MainActivity.this).inflate(R.layout.empty_layout, null));
         recyclerView.setAdapter(newsListAdapter);
@@ -77,7 +80,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initListener() {
-
+        newsListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                NewsBean.ResponseBean.DocsBean docsBean = (NewsBean.ResponseBean.DocsBean) adapter.getItem(position);
+                if (docsBean != null) {
+                    String web_url = docsBean.getWeb_url();
+                    if (!TextUtils.isEmpty(web_url)) {
+                        startActivity(new Intent(MainActivity.this, NewsDetailsActivity.class)
+                                .putExtra("news", docsBean));
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -86,11 +101,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (!TextUtils.isEmpty(search_content)) {
             etTitle.setText(search_content);
             etTitle.setSelection(search_content.length());
-
             search(search_content);
         }
     }
 
+    /**
+     * 搜索功能
+     * @param text
+     */
     private void search(String text) {
         showProgressDialog(false, getResources().getString(R.string.load));
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -98,6 +116,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                //json
                 if (!TextUtils.isEmpty(response)) {
                     NewsBean newsBean = JsonUtil.parseJsonToBean(response, NewsBean.class);
                     if (newsBean != null) {
@@ -143,7 +162,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 PrefUtils.putString(MainActivity.this, "search_content", search);
                 search(search);
                 break;
-
+            case R.id.cbCollectionBook:
+                startActivity(new Intent(MainActivity.this, CollectionActivity.class));
+                break;
+            case R.id.ivHelp:
+                AppUtils.showHelp(MainActivity.this,getResources().getString(R.string.news_use));
+                break;
         }
     }
 
@@ -155,7 +179,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         return super.onKeyDown(keyCode, event);
     }
 
-
+    /**
+     * 退出软件的提示
+     */
     private void close() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.mipmap.ic_launcher_round);

@@ -1,21 +1,25 @@
 package algonquin.cst2335.finalproject.adapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import algonquin.cst2335.finalproject.R;
-import algonquin.cst2335.finalproject.bean.NewsBean;
+import com.homework.news_master.R;
 
-import java.util.Base64;
 
 import algonquin.cst2335.finalproject.bean.NewsBean;
 
+/**
+ * 新闻列表的适配器
+ */
 public class NewsListAdapter extends BaseQuickAdapter<NewsBean.ResponseBean.DocsBean, BaseViewHolder>{
     public NewsListAdapter(int layoutResId) {
         super(layoutResId);
     }
 
+    /**
+     * 数据的显示和加载
+     * @param helper A fully initialized helper.
+     * @param item   The item that needs to be displayed.
+     */
     @Override
     protected void convert(BaseViewHolder helper, NewsBean.ResponseBean.DocsBean item) {
         helper.setText(R.id.tvName,item.getNews_desk());

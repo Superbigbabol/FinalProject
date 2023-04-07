@@ -1,4 +1,5 @@
 package algonquin.cst2335.finalproject.base;
+
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
@@ -11,11 +12,11 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.homework.news_master.R;
 
-
-import algonquin.cst2335.finalproject.R;
-
-
+/**
+ * 加载框
+ */
 public class BaseProgressDialog {
 
     private Context mContext;
