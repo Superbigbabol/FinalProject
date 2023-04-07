@@ -158,7 +158,6 @@ public class KittenImage extends AppCompatActivity {
                         .setPositiveButton("Ok", (dialogInterface, i) -> {})
                         .create().show();
                 break;
-
             case R.id.nasa:
                 Toast.makeText(KittenImage.this, "Welcome to Nasa Mars Rover Photos", Toast.LENGTH_SHORT).show();
                 Intent nasaIntent = new Intent(KittenImage.this, MarsPhotoActivity.class);
@@ -170,14 +169,9 @@ public class KittenImage extends AppCompatActivity {
                 startActivity(weatherIntent);
                 break;
             case R.id.nytimes:
-                Snackbar.make(binding.myToolbar, "Welcome to New York Times", Snackbar.LENGTH_LONG)
-                        .setAction("Back to Home Page", click -> {
-                            Intent i = new Intent(KittenImage.this, MainActivity.class);
-                            startActivity(i);
-                        })
-                        .show();
-            //    Intent nytIntent = new Intent(KittenImage.this, NewYorkTimes.class);
-            //    startActivity(nytIntent);
+                Toast.makeText(KittenImage.this, "Welcome to New York Times", Toast.LENGTH_SHORT).show();
+                Intent nytIntent = new Intent(KittenImage.this, NewYorkTimeActivity.class);
+                startActivity(nytIntent);
                 break;
         }
         return super.onOptionsItemSelected(item);

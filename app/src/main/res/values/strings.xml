@@ -44,4 +44,30 @@
     <!-- EditText hint -->
     <string name="hint_width">Enter width</string>
     <string name="hint_height">Enter height</string>
+
+    <!-- New York Time-->
+    <string name="title">News</string>
+    <string name="search">Search</string>
+    <string name="input_search">Please enter the search content</string>
+    <string name="load">Loading......</string>
+    <string name="search_ok_first">Search succeeded,</string>
+    <string name="search_ok_second"> news in total</string>
+    <string name="input_english">Please enter English</string>
+    <string name="dia_title">Title</string>
+    <string name="leave_app">Do you want to leave APP?</string>
+    <string name="ok">OK</string>
+    <string name="help_nyt">Help</string>
+    <string name="news_use">This page is a news list page. You can enter the search news in the input box, click Search to carry out the corresponding search. There is a button in the upper right corner to enter the collection interface, and click the list to enter the details.</string>
+    <string name="collection_use">This page is a favorite page. The favorite news can be seen here. Click the list to enter details.</string>
+    <string name="cancel">Cancel</string>
+    <string name="content_use">This page is the news details page. You can browse the news and collect the news in detail.</string>
+    <string name="nodata">No Data</string>
+    <string name="collection">Collection</string>
+    <string name="cancel_collection">Cancel collection?</string>
+    <string name="cancel_collection_bottom">Cancel Collection</string>
+    <string name="have">There are </string>
+    <string name="details">Details</string>
+    <string name="know">Know</string>
+    <string name="num_coll">collections in total </string>
+    <string name="collection_bottom">Collection succeeded</string>
 </resources>

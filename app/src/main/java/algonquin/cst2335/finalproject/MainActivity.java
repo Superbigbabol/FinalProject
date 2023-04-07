@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // TODO: integrate other Activities into this MainActivity
         binding.nasaImgBtn.setOnClickListener( click -> {
             Intent nasaIntent = new Intent(MainActivity.this, MarsPhotoActivity.class);
             startActivity(nasaIntent);
