@@ -3,6 +3,8 @@ package algonquin.cst2335.finalproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +50,12 @@ import algonquin.cst2335.finalproject.data.PicDatabase;
 import algonquin.cst2335.finalproject.databinding.ActivityKittenImageBinding;
 import algonquin.cst2335.finalproject.databinding.FavouriteImageBinding;
 
+/** Kitten Image activity allows fetching cute kitten images from https://placekitten.com/width/height,
+ * saving favourite images in database, listing all saved images in RecyclerView and showing details when viewing
+ *
+ * @author SHUBO
+ * @see AppCompatActivity
+ */
 public class KittenImage extends AppCompatActivity {
 
     ActivityKittenImageBinding binding;
@@ -57,39 +66,64 @@ public class KittenImage extends AppCompatActivity {
     KittenImageViewModel favModel;
     ArrayList<FavouritePic> myFavourites;
 
-
-    // inner class - a collection of row objects shown in RecyclerView
+    /** An inner class - to define each row presented in RecyclerView
+     *
+     * @see RecyclerView.ViewHolder
+     */
     class MyRowHolder extends RecyclerView.ViewHolder {
         ImageView thumbnail;
         TextView widthText;
         TextView heightText;
         TextView timeText;
+        Button delBtn;
+
+        /** Construct MyRowHolder including two click events
+         *
+         * @param itemView an xml file describing the layout of each MyRowHolder
+         */
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener( click ->{
                 int position = getAbsoluteAdapterPosition();
-                FavouritePic clickedFavourite = myFavourites.get(position);
+                FavouritePic selected = myFavourites.get(position);
+                favModel.selectedPic.postValue(selected);
+            });
+            thumbnail = itemView.findViewById(R.id.thumbnail);
+            widthText = itemView.findViewById(R.id.width);
+            heightText = itemView.findViewById(R.id.height);
+            timeText = itemView.findViewById(R.id.time);
+            delBtn = itemView.findViewById(R.id.delBtn);
+            delBtn.setOnClickListener( click -> {
+                int position = getAbsoluteAdapterPosition();
+                FavouritePic clickedFP = myFavourites.get(position);
                 AlertDialog.Builder builder = new AlertDialog.Builder(KittenImage.this);
-                builder.setMessage("Do you want to delete this favourite record?")
-                        .setTitle("Caution!")
+                builder.setMessage(R.string.delete_prompt)
+                        .setTitle(R.string.delete_title)
                         .setPositiveButton("Yes", (dialogInterface, i) -> {
+                            File file = new File(getFilesDir(), "Kitten_"+clickedFP.getWidth()+clickedFP.getHeight()+".png");
+                            kittenPic = BitmapFactory.decodeFile(file.getPath());
                             Executor thread = Executors.newSingleThreadExecutor();
                             thread.execute(() ->
                             {
-                                fpDAO.deletePic(clickedFavourite);//delete from db
+                                fpDAO.deletePic(clickedFP);//delete from db
                                 myFavourites.remove(position);//also remove from ArrayList
-                                //back to main thread
-                                runOnUiThread(()->{
+                                file.delete();//delete file in disk
+                                runOnUiThread( () -> {
                                     myAdapter.notifyItemRemoved(position);//update the recycler view
-                                    Snackbar.make(thumbnail, "You deleted favourite #"+position, Snackbar.LENGTH_LONG)
+                                    Snackbar.make(timeText, "You deleted favourite #"+position, Snackbar.LENGTH_LONG)
                                             .setAction("Undo", clk -> {
                                                 Executor thread_2 = Executors.newSingleThreadExecutor();
-                                                thread_2.execute(() ->{
-                                                    //background
-                                                    fpDAO.insertPic(clickedFavourite);
-                                                    myFavourites.add(position, clickedFavourite);
-                                                    //main thread
+                                                thread_2.execute(() -> {
+                                                    long id = fpDAO.insertPic(clickedFP);
+                                                    clickedFP.id = id;
+                                                    myFavourites.add(position, clickedFP);
                                                     runOnUiThread(()->{
+                                                        try (FileOutputStream fOut = openFileOutput("Kitten_"+clickedFP.getWidth()+clickedFP.getHeight()+".png", Context.MODE_PRIVATE);) {
+                                                            kittenPic.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                                            fOut.flush();
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }
                                                         myAdapter.notifyItemInserted(position);
                                                     });
                                                 });
@@ -99,14 +133,10 @@ public class KittenImage extends AppCompatActivity {
                             });
                         })
                         .setNegativeButton("No",(dialogInterface, i) -> {
-                            //do nothing
+                            // do nothing
                         })
                         .create().show();
             });
-            thumbnail = itemView.findViewById(R.id.thumbnail);
-            widthText = itemView.findViewById(R.id.width);
-            heightText = itemView.findViewById(R.id.height);
-            timeText = itemView.findViewById(R.id.time);
         }
     }
 
@@ -123,12 +153,12 @@ public class KittenImage extends AppCompatActivity {
         {
             case R.id.about:
                 AlertDialog.Builder builder = new AlertDialog.Builder(KittenImage.this);
-                builder.setTitle("Help")
-                        .setMessage("Enter any width and height and fetch image if you like then save it in my favourite list")
+                builder.setTitle(R.string.help)
+                        .setMessage(R.string.help_content)
                         .setPositiveButton("Ok", (dialogInterface, i) -> {})
                         .create().show();
                 break;
-            // TODO: implement other menu items
+
             case R.id.nasa:
                 Toast.makeText(KittenImage.this, "Welcome to Nasa Mars Rover Photos", Toast.LENGTH_SHORT).show();
                 Intent nasaIntent = new Intent(KittenImage.this, MarsPhotoActivity.class);
@@ -159,27 +189,6 @@ public class KittenImage extends AppCompatActivity {
 
         binding = ActivityKittenImageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        // create db
-        PicDatabase db = Room.databaseBuilder(getApplicationContext(), PicDatabase.class, "KittenImages").build();
-        fpDAO = db.fpDAO();
-
-        // instantiate ViewModel so that app can survive from rotation
-        favModel = new ViewModelProvider(this).get(KittenImageViewModel.class);
-        myFavourites = favModel.favPic.getValue();
-        if (myFavourites == null){
-            myFavourites = new ArrayList<FavouritePic>();
-
-            // get kitten images from db
-            Executor thread = Executors.newSingleThreadExecutor();
-            thread.execute(()->{
-                myFavourites.addAll(fpDAO.getAllPic());
-            });
-            favModel.favPic.postValue(myFavourites);
-        }
-
-        //instantiate request queue
-        queue = Volley.newRequestQueue(KittenImage.this);
 
         // toolbar
         setSupportActionBar(binding.myToolbar);
@@ -222,6 +231,23 @@ public class KittenImage extends AppCompatActivity {
                 return super.getItemViewType(position);
             }
         };
+
+        // create db
+        PicDatabase db = Room.databaseBuilder(getApplicationContext(), PicDatabase.class, "KittenImages").build();
+        fpDAO = db.fpDAO();
+
+        // instantiate ViewModel so that app can survive from rotation
+        favModel = new ViewModelProvider(this).get(KittenImageViewModel.class);
+        myFavourites = favModel.favPic.getValue();
+        if (myFavourites == null){
+            myFavourites = new ArrayList<FavouritePic>();
+            // get kitten images from db
+            Executor thread = Executors.newSingleThreadExecutor();
+            thread.execute(()->{
+                myFavourites.addAll(fpDAO.getAllPic());
+            });
+            favModel.favPic.postValue(myFavourites);
+        }
         binding.imgRecyclerView.setAdapter(myAdapter);
         binding.imgRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -231,6 +257,9 @@ public class KittenImage extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         binding.imgWidth.setText(prefs.getString("ImgWidth", ""));
         binding.imgHeight.setText(prefs.getString("ImgHeight",""));
+
+        //instantiate request queue
+        queue = Volley.newRequestQueue(KittenImage.this);
 
         // fetch image from web
         binding.retrieveBtn.setOnClickListener(click -> {
@@ -259,7 +288,6 @@ public class KittenImage extends AppCompatActivity {
 
         // click on save image, the image should be saved to disk, and the width, height, and date & time of when the image was saved should be stored on the database
         binding.saveBtn.setOnClickListener(click -> {
-
             String width = binding.imgWidth.getText().toString();
             String height = binding.imgHeight.getText().toString();
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
@@ -271,8 +299,8 @@ public class KittenImage extends AppCompatActivity {
                 //check if kitten img exists
                 File file = new File(getFilesDir(), fileName);
                 if (file.exists()) {
-                    // if exists, don't save to disk again
-                    // kittenPic = BitmapFactory.decodeFile(file.getPath());
+                    // if exists, not going to save in db and disk
+                    Toast.makeText(this, "You have it, check list", Toast.LENGTH_SHORT).show();
                 } else {
                     // not exist, create one and save on the disk
                     try (FileOutputStream fOut = openFileOutput(fileName, Context.MODE_PRIVATE);) {
@@ -281,28 +309,34 @@ public class KittenImage extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    FavouritePic fp = new FavouritePic(Integer.parseInt(width), Integer.parseInt(height), currentDateandTime);
+                    myFavourites.add(fp);
+                    // insert into db
+                    Executor thread1 = Executors.newSingleThreadExecutor();
+                    thread1.execute(()->{
+                        long id = fpDAO.insertPic(fp);
+                        fp.id = id;//assign id returned from db to object.id, so that they can match when doing transcation
+                    });
+
+                    //notify RecyclerView a new RowHolder is inserted
+                    myAdapter.notifyItemInserted(myFavourites.size() - 1);
+
+                    // after save the img, things should be cleaned, so other width and height can be entered
+                    binding.imageView.setImageBitmap(null);
+                    binding.imgWidth.setText("");
+                    binding.imgHeight.setText("");
+                    kittenPic = null;
                 }
-
-                FavouritePic fp = new FavouritePic(Integer.parseInt(width), Integer.parseInt(height), currentDateandTime);
-                myFavourites.add(fp);
-                // insert into db
-                Executor thread1 = Executors.newSingleThreadExecutor();
-                thread1.execute(()->{
-                    fpDAO.insertPic(fp);
-                });
-
-
-                //notify RecyclerView a new RowHolder is inserted
-                myAdapter.notifyItemInserted(myFavourites.size() - 1);
-
-                // after save the img, things should be cleaned, so other width and height can be entered
-                binding.imageView.setImageBitmap(null);
-                binding.imgWidth.setText("");
-                binding.imgHeight.setText("");
-                kittenPic = null;
             } else {
-                Toast.makeText(this,"Nothing to save", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show();
             }
         });
+
+        favModel.selectedPic.observe(this, (selectedPic) -> {
+            FavouriteDetailFragment detailFragment = new FavouriteDetailFragment(selectedPic);
+            getSupportFragmentManager().beginTransaction().add(R.id.fragmentLocation, detailFragment).addToBackStack("").commit();
+        });
+
     }
 }

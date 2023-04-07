@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/resizedImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/details"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/savedTimeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="128dp"
+        android:text="SavedTime goes here"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/heightText"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/widthText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="Width goes here"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/heightText"
+        app:layout_constraintStart_toStartOf="@+id/heightText"
+        app:layout_constraintTop_toBottomOf="@+id/resizedImage"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/heightText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Height goes here"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/savedTimeText"
+        app:layout_constraintStart_toStartOf="@+id/savedTimeText"
+        app:layout_constraintTop_toBottomOf="@+id/widthText"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/fragment_header"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_width"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/widthText"
+        app:layout_constraintTop_toTopOf="@+id/widthText" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_height"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/heightText"
+        app:layout_constraintTop_toTopOf="@+id/heightText" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_time"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/savedTimeText"
+        app:layout_constraintTop_toTopOf="@+id/savedTimeText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
