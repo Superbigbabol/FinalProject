@@ -1,13 +1,14 @@
 package algonquin.cst2335.finalproject.bean;
 
 
-
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
 
-
+/**
+ * 新闻的json实体类
+ */
 public class NewsBean implements Serializable {
 
 
