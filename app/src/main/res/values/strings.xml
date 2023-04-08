@@ -70,4 +70,8 @@
     <string name="know">Know</string>
     <string name="num_coll">collections in total </string>
     <string name="collection_bottom">Collection succeeded</string>
+
+    <!-- Weather -->
+    <string name="forest">GET FOREST</string>
+    <string name="save_city">SAVE CITY</string>
 </resources>

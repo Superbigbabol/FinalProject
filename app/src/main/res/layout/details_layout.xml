@@ -21,10 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="128dp"
         android:text="SavedTime goes here"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/heightText"
         app:layout_constraintVertical_bias="0.5" />
 
@@ -36,7 +35,7 @@
         android:text="Width goes here"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/heightText"
-        app:layout_constraintStart_toStartOf="@+id/heightText"
+        app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/resizedImage"
         app:layout_constraintVertical_bias="0.5" />
 
@@ -49,7 +48,7 @@
         android:text="Height goes here"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/savedTimeText"
-        app:layout_constraintStart_toStartOf="@+id/savedTimeText"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/widthText"
         app:layout_constraintVertical_bias="0.5" />
 
@@ -70,7 +69,7 @@
         android:layout_height="wrap_content"
         android:text="@string/fragment_width"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/widthText"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/widthText" />
 
     <TextView
@@ -79,7 +78,7 @@
         android:layout_height="wrap_content"
         android:text="@string/fragment_height"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/heightText"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/heightText" />
 
     <TextView
@@ -88,7 +87,7 @@
         android:layout_height="wrap_content"
         android:text="@string/fragment_time"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/savedTimeText"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/savedTimeText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

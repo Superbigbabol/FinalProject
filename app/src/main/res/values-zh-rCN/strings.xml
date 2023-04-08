@@ -48,4 +48,8 @@
     <string name="have">有 </string>
     <string name="details">详情</string>
     <string name="num_coll">个收藏 </string>
+
+    <!-- weather-->
+    <string name="forest">天气预报</string>
+    <string name="save_city">保存城市</string>
 </resources>

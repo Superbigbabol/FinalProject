@@ -18,7 +18,10 @@
         <activity android:name=".NewYorkTimeActivity"
             android:theme="@style/AppBaseTheme"
             android:exported="true"/>
-
+        <activity
+            android:name=".WeatherDetailActivity"
+            android:theme="@style/AppBaseTheme"
+            android:exported="false" />
         <activity
             android:name=".Weather"
             android:theme="@style/AppBaseTheme"
