@@ -41,6 +41,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -250,6 +251,18 @@ public class MarsPhotoActivity extends AppCompatActivity {
 //                holder.thumbnail.setImageBitmap(bitmapList.get(position));
 
 
+
+                new Thread(() -> {
+                    try {
+                        // Load the image from the URL using Picasso
+                        Bitmap bitmap = Picasso.get().load(imageUrl).get();
+                        // Update the UI on the main thread with the loaded image
+                        runOnUiThread(() -> holder.thumbnail.setImageBitmap(bitmap));
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
                 holder.roverName.setText(roverName);
                 holder.photoID.setText(photoID);
             }

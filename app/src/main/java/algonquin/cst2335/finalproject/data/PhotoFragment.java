@@ -1,15 +1,34 @@
 package algonquin.cst2335.finalproject.data;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.TextView;
 
 
 import androidx.fragment.app.Fragment;
+
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import algonquin.cst2335.finalproject.data.MarsPhoto;
 import algonquin.cst2335.finalproject.databinding.DetailsLayoutBinding;
@@ -28,7 +47,53 @@ public class PhotoFragment extends Fragment {
 
         DetailsLayoutBinding binding = DetailsLayoutBinding.inflate(inflater);
         binding.camerName.setText(selected.getCameraName());
-        binding.imgSrc.setText(selected.getImgSrc());
+        String imageUrl = selected.getImgSrc();
+        binding.imgSrc.setText(imageUrl);
+        String imageUrl1 = "https://placekitten.com/100/100";
+    //    Glide.with(this).load(imageUrl1).into(binding.op);
+
+     //   Picasso.get().load(imageUrl).into(binding.op);
+
+
+        new Thread(() -> {
+            try {
+                // Load the image from the URL using Picasso
+                Bitmap bitmap = Picasso.get().load(imageUrl).get();
+                // Update the UI on the main thread with the loaded image
+                getActivity().runOnUiThread(() -> binding.op.setImageBitmap(bitmap));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+//        new Thread(() -> {
+//            try {
+//                URL url = new URL(imageUrl);
+//                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//                connection.connect();
+//                InputStream input = connection.getInputStream();
+//                byte[] buffer = new byte[8192];
+//                ByteArrayOutputStream output = new ByteArrayOutputStream();
+//                int bytesRead;
+//                while ((bytesRead = input.read(buffer)) != -1) {
+//                    output.write(buffer, 0, bytesRead);
+//                }
+//                input.close();
+//                output.flush();
+//                byte[] imageData = output.toByteArray();
+//                output.close();
+//
+//                // Load the image data into the ImageView on the UI thread
+//                getActivity().runOnUiThread(() -> {
+//                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+//                    binding.op.setImageBitmap(bitmap);
+//                });
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }).start();
+
         binding.imgSrc.setOnClickListener(v -> {
 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
