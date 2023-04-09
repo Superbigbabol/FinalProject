@@ -71,16 +71,16 @@ public class MarsPhotoActivity extends AppCompatActivity {
 
     ActivityMarsPhotoBinding binding;
     RecyclerView.Adapter myAdapter;
+
     Bitmap marsPic;
     String url0 = "http://mars.jpl.nasa.gov/msl-raw-images/msss/01000/mcam/1000MR0044630890503649E02_DXXX.jpg";
     String url1 = "https://placekitten.com/100/100";
-    ArrayList<Bitmap>  bitmapList=new ArrayList<>();
+    ArrayList<Bitmap> bitmapList = new ArrayList<>();
 
     MarsPhotoDao mDao;
- public   MarsPhotoViewModel mvm;
+    public MarsPhotoViewModel mvm;
     int position;
     PhotoFragment prevFragment;
-
 
 
 //    ArrayList<FavouritePic> myFavourites = new ArrayList<>();
@@ -98,7 +98,7 @@ public class MarsPhotoActivity extends AppCompatActivity {
             roverName = itemView.findViewById(R.id.roverName);
             photoID = itemView.findViewById(R.id.photoID);
 
-            itemView.setOnClickListener(click->{
+            itemView.setOnClickListener(click -> {
                 position = getAbsoluteAdapterPosition();
                 MarsPhoto selected = photoList.get(position);
                 mvm.selectedPhoto.postValue(selected);
@@ -158,12 +158,12 @@ public class MarsPhotoActivity extends AppCompatActivity {
 
         mvm = new ViewModelProvider(this).get(MarsPhotoViewModel.class);
 
-     //   photoList = mvm.photos.getValue();
+        //   photoList = mvm.photos.getValue();
 
-        MarsPhotoDatabase db = Room.databaseBuilder(getApplicationContext(),MarsPhotoDatabase.class,"database-name").build();
+        MarsPhotoDatabase db = Room.databaseBuilder(getApplicationContext(), MarsPhotoDatabase.class, "database-name").fallbackToDestructiveMigration().build();
         mDao = db.mpDao();
 
-        mvm.selectedPhoto.observe(this,(newValue) -> {
+        mvm.selectedPhoto.observe(this, (newValue) -> {
 
             PhotoFragment pFragment = new PhotoFragment(newValue);
             FragmentManager fMgr = getSupportFragmentManager();
@@ -180,19 +180,16 @@ public class MarsPhotoActivity extends AppCompatActivity {
         });
 
 
-
-            if(photoList ==null)
-        {
-            mvm.photoList.setValue(photoList = new ArrayList<>() );
+        if (photoList == null) {
+            mvm.photoList.setValue(photoList = new ArrayList<>());
             Executor thread = Executors.newSingleThreadExecutor();
             thread.execute(() ->
             {
-                photoList.addAll(mDao.getAllPhotos() ); //Once you get the data from database
+                photoList.addAll(mDao.getAllPhotos()); //Once you get the data from database
 
-                runOnUiThread( () ->  binding.imgRecyclerView.setAdapter( myAdapter )); //You can then load the RecyclerView
+                runOnUiThread(() -> binding.imgRecyclerView.setAdapter(myAdapter)); //You can then load the RecyclerView
             });
         }
-
 
 
         // toolbar
@@ -249,7 +246,6 @@ public class MarsPhotoActivity extends AppCompatActivity {
 
 //                Picasso.get().load(imgUrl).into(holder.thumbnail);
 //                holder.thumbnail.setImageBitmap(bitmapList.get(position));
-
 
 
                 new Thread(() -> {
