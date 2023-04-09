@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -32,6 +33,7 @@ import java.util.concurrent.Executors;
 
 import algonquin.cst2335.finalproject.data.MarsPhoto;
 import algonquin.cst2335.finalproject.databinding.DetailsLayoutBinding;
+import algonquin.cst2335.finalproject.R;
 
 public class PhotoFragment extends Fragment {
 
@@ -49,23 +51,25 @@ public class PhotoFragment extends Fragment {
         binding.camerName.setText(selected.getCameraName());
         String imageUrl = selected.getImgSrc();
         binding.imgSrc.setText(imageUrl);
-        String imageUrl1 = "https://placekitten.com/100/100";
-    //    Glide.with(this).load(imageUrl1).into(binding.op);
+        Glide.with(this)
+                .load(imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.placeholder)
+                .into(binding.op);
 
-     //   Picasso.get().load(imageUrl).into(binding.op);
 
-
-        new Thread(() -> {
-            try {
-                // Load the image from the URL using Picasso
-                Bitmap bitmap = Picasso.get().load(imageUrl).get();
-                // Update the UI on the main thread with the loaded image
-                getActivity().runOnUiThread(() -> binding.op.setImageBitmap(bitmap));
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
+//
+//        new Thread(() -> {
+//            try {
+//                // Load the image from the URL using Picasso
+//                Bitmap bitmap = Picasso.get().load(imageUrl).get();
+//                // Update the UI on the main thread with the loaded image
+//                getActivity().runOnUiThread(() -> binding.op.setImageBitmap(bitmap));
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }).start();
 
 //        new Thread(() -> {
 //            try {

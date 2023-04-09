@@ -25,4 +25,14 @@
     <string name="know">Know</string>
     <string name="num_coll">collections in total </string>
     <string name="collection_bottom">Collection succeeded</string>
+
+    <!-- Mars Photo-->
+    <string name="searchPhoto">Search Photo</string>
+    <string name="savedPhoto">Saved Photo</string>
+    <string name="savePhoto">Save Photo</string>
+    <string name="savedList">Saved Photo List</string>
+    <string name="searchList">Search Result List</string>
+
+
+
 </resources>

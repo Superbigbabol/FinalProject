@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">FinalProject</string>
+    <string name="searchPhoto">Serach Photo</string>
+    <string name="savedPhoto">Saved Photo</string>
+    <string name="savePhoto">Save Photo</string>
+    <string name="savedList">Saved Photo List</string>
+    <string name="searchList">Search Result List</string>
 
     <string-array name="cities">
         <item>Ottawa</item>

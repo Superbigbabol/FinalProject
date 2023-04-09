@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">期末作业</string>
+
+
+    <!-- Mars Photo-->
+
+    <string name="searchPhoto">s照片</string>
+    <string name="savedPhoto">Saved Photo</string>
+    <string name="savePhoto">Save Photo</string>
+    <string name="savedList">Saved Photo List</string>
+    <string name="searchList">Search Result List</string>
+
+
+
+
+
+</resources>

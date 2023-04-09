@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +33,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
@@ -248,17 +251,27 @@ public class MarsPhotoActivity extends AppCompatActivity {
 //                holder.thumbnail.setImageBitmap(bitmapList.get(position));
 
 
-                new Thread(() -> {
-                    try {
-                        // Load the image from the URL using Picasso
-                        Bitmap bitmap = Picasso.get().load(imageUrl).get();
-                        // Update the UI on the main thread with the loaded image
-                        runOnUiThread(() -> holder.thumbnail.setImageBitmap(bitmap));
+//                new Thread(() -> {
+//                    try {
+//                        // Load the image from the URL using Picasso
+//                        Bitmap bitmap = Picasso.get().load(imageUrl).get();
+//                        // Update the UI on the main thread with the loaded image
+//                        runOnUiThread(() -> holder.thumbnail.setImageBitmap(bitmap));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }).start();
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
+//                Glide.with(holder.thumbnail.getContext())
+
+                RequestBuilder<Drawable> requestBuilder =
+                        Glide.with(holder.itemView.getContext())
+                                .load(imageUrl)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .placeholder(R.drawable.placeholder);
+                requestBuilder.into(holder.thumbnail);
+
+
                 holder.roverName.setText(roverName);
                 holder.photoID.setText(photoID);
             }
@@ -291,6 +304,8 @@ public class MarsPhotoActivity extends AppCompatActivity {
             String sol = binding.sol.getText().toString();
             editor.putString("solarDayOnMars", sol);
             editor.apply();
+            String searchList = getString(R.string.searchList);
+            binding.myFavourite.setText(searchList);
 
             photoList = new ArrayList<>();
             bitmapList = new ArrayList<>();
@@ -369,6 +384,15 @@ public class MarsPhotoActivity extends AppCompatActivity {
 
         // click on save image, the image should be saved to disk, and the width, height, and date & time of when the image was saved should be stored on the database
         binding.saveBtn.setOnClickListener(click -> {
+
+            MarsPhoto newPhoto = mvm.selectedPhoto.getValue();
+
+            Executor thread_1 = Executors.newSingleThreadExecutor();
+            thread_1.execute(()->{
+                //insert into database
+                mDao.insertPhoto(newPhoto);
+
+            });
 
         });
 
