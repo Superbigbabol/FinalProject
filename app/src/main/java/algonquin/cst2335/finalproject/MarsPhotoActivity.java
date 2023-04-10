@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -80,9 +79,6 @@ public class MarsPhotoActivity extends AppCompatActivity {
     ActivityMarsPhotoBinding binding;
     RecyclerView.Adapter myAdapter;
 
-    Bitmap marsPic;
-    String url0 = "http://mars.jpl.nasa.gov/msl-raw-images/msss/01000/mcam/1000MR0044630890503649E02_DXXX.jpg";
-    String url1 = "https://placekitten.com/100/100";
     ArrayList<Bitmap> bitmapList = new ArrayList<>();
 
     MarsPhotoDao mDao;
@@ -90,9 +86,6 @@ public class MarsPhotoActivity extends AppCompatActivity {
     int position;
     PhotoFragment prevFragment;
 
-
-//    ArrayList<FavouritePic> myFavourites = new ArrayList<>();
-// todo : create FavouritePic class and implement ViewModelProvider(this).get(XXXViewModel.class);
 
     // a collection of row objects shown in RecyclerView
     class MyRowHolder extends RecyclerView.ViewHolder {
@@ -112,29 +105,29 @@ public class MarsPhotoActivity extends AppCompatActivity {
                 MarsPhoto selected = photoList.get(position);
                 mvm.selectedPhoto.postValue(selected);
 
-                if(isSavedList){
+                if (isSavedList) {
 
                     aView = binding.snackbar;
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(MarsPhotoActivity.this);
                     builder.setMessage("Do you want to delete this photo?");
                     builder.setTitle("Warning!!");
-                    builder.setPositiveButton("OK", (dialog, which)->{
+                    builder.setPositiveButton("OK", (dialog, which) -> {
                         Executor thread_1 = Executors.newSingleThreadExecutor();
-                        thread_1.execute(()->{
+                        thread_1.execute(() -> {
 
                             mDao.deletePhoto(selected);
                             photoList.remove(position);
-                            runOnUiThread(()->{
+                            runOnUiThread(() -> {
                                 myAdapter.notifyItemRemoved(position);
                                 Snackbar.make(aView, "Item deleted", Snackbar.LENGTH_LONG)
-                                        .setAction("Undo", clk ->{
+                                        .setAction("Undo", clk -> {
                                             Executor thread_2 = Executors.newSingleThreadExecutor();
-                                            thread_2.execute(()->{
+                                            thread_2.execute(() -> {
 
                                                 mDao.insertPhoto(selected);
-                                                photoList.add(position,selected);
-                                                runOnUiThread(()->{
+                                                photoList.add(position, selected);
+                                                runOnUiThread(() -> {
                                                     myAdapter.notifyItemInserted(position);
                                                 });
 
@@ -147,13 +140,12 @@ public class MarsPhotoActivity extends AppCompatActivity {
 
                         });
                     });
-                    builder.setNegativeButton("Cancel", (dialog, which)->{
+                    builder.setNegativeButton("Cancel", (dialog, which) -> {
 
                     });
                     builder.create().show();
 
                 }
-
 
 
             });
@@ -195,8 +187,7 @@ public class MarsPhotoActivity extends AppCompatActivity {
                             startActivity(i);
                         })
                         .show();
-                //    Intent nytIntent = new Intent(MarsPhotoActivity.this, NewYorkTimes.class);
-                //    startActivity(nytIntent);
+
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -259,60 +250,11 @@ public class MarsPhotoActivity extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(@NonNull MarsPhotoActivity.MyRowHolder holder, int position) {
-                // ensure MyRowHolder is initialized with correct value
-//                holder.thumbnail.setImageBitmap(null);
-//                holder.roverName.setText("");
                 String imageUrl = photoList.get(position).getImgSrc();
                 String roverName = photoList.get(position).getRoverName();
                 String photoID = photoList.get(position).getId();
 
 
-/*
-                ImageRequest imageRequest = new ImageRequest(
-                        imageUrl,
-                        bitmap ->{
-
-//                            public void onResponse(Bitmap response) {
-                                // Use Glide to display the bitmap in the ImageView
-                                Glide.with( holder.itemView.getContext())
-                                        .load(bitmap)
-                                        .centerCrop()
-                                        .placeholder(R.drawable.placeholder_image)
-                                        .error(R.drawable.error_image)
-                                        .into(holder.thumbnail);
-//                            }
-                        },
-                        0, 0,
-                        ImageView.ScaleType.CENTER_CROP,
-                        Bitmap.Config.RGB_565,
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                error.printStackTrace();
-                            }
-                        }
-                );
-                Volley.newRequestQueue(holder.itemView.getContext()).add(imageRequest);
-
- */
-
-
-//                Picasso.get().load(imgUrl).into(holder.thumbnail);
-//                holder.thumbnail.setImageBitmap(bitmapList.get(position));
-
-
-//                new Thread(() -> {
-//                    try {
-//                        // Load the image from the URL using Picasso
-//                        Bitmap bitmap = Picasso.get().load(imageUrl).get();
-//                        // Update the UI on the main thread with the loaded image
-//                        runOnUiThread(() -> holder.thumbnail.setImageBitmap(bitmap));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }).start();
-
-//                Glide.with(holder.thumbnail.getContext())
 
                 RequestBuilder<Drawable> requestBuilder =
                         Glide.with(holder.itemView.getContext())
@@ -363,13 +305,6 @@ public class MarsPhotoActivity extends AppCompatActivity {
             mvm.photoList.setValue(photoList = new ArrayList<>());
             binding.imgRecyclerView.setAdapter(myAdapter);
 
- //           bitmapList = new ArrayList<>();
-
-//            Glide.with(this)
-//                    .load(url1)
-//                    .thumbnail(0.5f)
-//                    .into(binding.imageView);
-
 
             RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -381,7 +316,6 @@ public class MarsPhotoActivity extends AppCompatActivity {
                     try {
                         JSONArray photosArray = response.getJSONArray("photos");
                         for (int i = 0; i < Math.min(photosArray.length(), 5); i++) {
-//                        for (int i = 0; i < 1; i++) {
                             JSONObject photoObject = photosArray.getJSONObject(i);
                             String id = photoObject.getString("id");
                             String imageUrl = photoObject.getString("img_src");
@@ -393,30 +327,12 @@ public class MarsPhotoActivity extends AppCompatActivity {
                             MarsPhoto photo = new MarsPhoto(id, imageUrl, roverName, cameraName);
                             photoList.add(photo);
 
-
-//                            ImageRequest imgReq = new ImageRequest(url1, (bitmap) -> {
-//                                try {
-//                                    // Do something with loaded bitmap...
-//                                    Bitmap image = bitmap;
-//
-//
-//                                    image.compress(Bitmap.CompressFormat.PNG, 100, MarsPhotoActivity.this.openFileOutput(id + ".jpg", Activity.MODE_PRIVATE));
-//                                    bitmapList.add(image);
-//
-//                                } catch (FileNotFoundException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
-//                            });
-//                            queue.add(imgReq);
-
-
                         }
 
                         mvm.photoList.postValue(photoList);
-//                        if(photoList.size() == bitmapList.size()){
+
                         myAdapter.notifyItemInserted(photoList.size() - 1);
-//                    }
+
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -429,10 +345,6 @@ public class MarsPhotoActivity extends AppCompatActivity {
                 queue.add(request);
 
             }
-
-
-//              mvm.photos.postValue(photoList);
-//            myAdapter.notifyItemInserted(photoList.size() );
 
 
         });
@@ -450,12 +362,8 @@ public class MarsPhotoActivity extends AppCompatActivity {
             photoList = new ArrayList<>();
 
 
-//            photoList.addAll(mDao.getAllPhotos());
-
-
-
             Executor thread_1 = Executors.newSingleThreadExecutor();
-            thread_1.execute(()->{
+            thread_1.execute(() -> {
 
                 mDao.insertPhoto(newPhoto);
 
@@ -464,21 +372,19 @@ public class MarsPhotoActivity extends AppCompatActivity {
             photoList = new ArrayList<>();
 
 
-                mvm.photoList.setValue(photoList = new ArrayList<>());
-                Executor thread = Executors.newSingleThreadExecutor();
-                thread.execute(() ->
-                {
-                    photoList.addAll(mDao.getAllPhotos()); //Once you get the data from database
+            mvm.photoList.setValue(photoList = new ArrayList<>());
+            Executor thread = Executors.newSingleThreadExecutor();
+            thread.execute(() ->
+            {
+                photoList.addAll(mDao.getAllPhotos()); //Once you get the data from database
 
-                    runOnUiThread(() -> binding.imgRecyclerView.setAdapter(myAdapter)); //You can then load the RecyclerView
-                });
-
-
-
+                runOnUiThread(() -> binding.imgRecyclerView.setAdapter(myAdapter)); //You can then load the RecyclerView
+            });
 
 
             // Download the photo from the URL and write it to the file
 
+            assert newPhoto != null;
             String id = newPhoto.getId();
             String imageUrl = newPhoto.getImgSrc();
 
@@ -505,8 +411,6 @@ public class MarsPhotoActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    // Notify the user that the photo has been saved
-                    // Toast.makeText(getActivity(), "Photo saved", Toast.LENGTH_SHORT).show();
                     runOnUiThread(() -> Toast.makeText(this, "Original picture  saved", Toast.LENGTH_LONG).show());
 
 
@@ -514,7 +418,6 @@ public class MarsPhotoActivity extends AppCompatActivity {
             } else {
                 runOnUiThread(() -> Toast.makeText(this, "Original picture already exists", Toast.LENGTH_LONG).show());
             }
-
 
 
         });

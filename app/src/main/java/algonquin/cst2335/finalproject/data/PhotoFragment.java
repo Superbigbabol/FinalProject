@@ -1,53 +1,19 @@
 package algonquin.cst2335.finalproject.data;
 
-import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.URLUtil;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-
 
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.Response;
-import com.android.volley.toolbox.ImageRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.google.android.material.snackbar.Snackbar;
-import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import algonquin.cst2335.finalproject.data.MarsPhoto;
 import algonquin.cst2335.finalproject.databinding.DetailsLayoutBinding;
 import algonquin.cst2335.finalproject.R;
 
@@ -60,8 +26,6 @@ public class PhotoFragment extends Fragment {
     }
 
     private TextView urlTextview;
-    Bitmap image;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,78 +42,6 @@ public class PhotoFragment extends Fragment {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.placeholder)
                 .into(binding.op);
-
-
-
-
-
-//        if (!file.exists()) {
-//
-//
-//            ImageRequest imgReq = new ImageRequest(imageUrl, new Response.Listener<Bitmap>() {
-//                @Override
-//                public void onResponse(Bitmap bitmap) {
-//                    try {
-//                        // Do something with loaded bitmap...
-//                        image = bitmap;
-//                        image.compress(Bitmap.CompressFormat.PNG, 100, getActivity().openFileOutput(id + ".jpg", Activity.MODE_PRIVATE));
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
-//            });
-//        };
-
-
-//
-//        new Thread(() -> {
-//            try {
-//                // Load the image from the URL using Picasso
-//                Bitmap bitmap = Picasso.get().load(imageUrl).get();
-//                // Update the UI on the main thread with the loaded image
-//                getActivity().runOnUiThread(() -> binding.op.setImageBitmap(bitmap));
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }).start();
-
-//        new Thread(() -> {
-//            try {
-//                URL url = new URL(imageUrl);
-//                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//                connection.connect();
-//                InputStream input = connection.getInputStream();
-//                byte[] buffer = new byte[8192];
-//                ByteArrayOutputStream output = new ByteArrayOutputStream();
-//                int bytesRead;
-//                while ((bytesRead = input.read(buffer)) != -1) {
-//                    output.write(buffer, 0, bytesRead);
-//                }
-//                input.close();
-//                output.flush();
-//                byte[] imageData = output.toByteArray();
-//                output.close();
-//
-//                // Load the image data into the ImageView on the UI thread
-//                getActivity().runOnUiThread(() -> {
-//                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-//                    binding.op.setImageBitmap(bitmap);
-//                });
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }).start();
-
-//        String imageName = id + ".jpg";
-//        File imageFile = new File(getActivity().getExternalFilesDir(null), imageName);
-
-//        image = BitmapFactory.decodeFile(pathname);
-//
-//        binding.op.setImageBitmap(image);
-
-
         binding.imgSrc.setOnClickListener(v -> {
 
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -157,12 +49,7 @@ public class PhotoFragment extends Fragment {
             startActivity(intent);
         });
 
-
-//       binding.op.setImageBitmap();
         return binding.getRoot();
-
-
     }
-
 
 }
