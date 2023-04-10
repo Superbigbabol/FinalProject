@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -44,7 +45,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -441,8 +445,12 @@ public class MarsPhotoActivity extends AppCompatActivity {
             String savedList = getString(R.string.savedList);
             binding.myFavourite.setText(savedList);
 
-
             MarsPhoto newPhoto = mvm.selectedPhoto.getValue();
+
+            photoList = new ArrayList<>();
+
+
+//            photoList.addAll(mDao.getAllPhotos());
 
 
 
@@ -464,6 +472,49 @@ public class MarsPhotoActivity extends AppCompatActivity {
 
                     runOnUiThread(() -> binding.imgRecyclerView.setAdapter(myAdapter)); //You can then load the RecyclerView
                 });
+
+
+
+
+
+            // Download the photo from the URL and write it to the file
+
+            String id = newPhoto.getId();
+            String imageUrl = newPhoto.getImgSrc();
+
+            String pathname = getFilesDir() + "/" + id + ".jpg";
+            File file = new File(pathname);
+            file.setWritable(true, false);
+            if (!file.exists()) {
+
+                Executor thread1 = Executors.newSingleThreadExecutor();
+                thread1.execute(() ->
+                {
+                    try {
+                        URL url = new URL(imageUrl);
+                        InputStream inputStream = url.openStream();
+                        FileOutputStream outputStream = new FileOutputStream(file);
+                        byte[] buffer = new byte[4096];
+                        int bytesRead = -1;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                        outputStream.close();
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Notify the user that the photo has been saved
+                    // Toast.makeText(getActivity(), "Photo saved", Toast.LENGTH_SHORT).show();
+                    runOnUiThread(() -> Toast.makeText(this, "Original picture  saved", Toast.LENGTH_LONG).show());
+
+
+                });
+            } else {
+                runOnUiThread(() -> Toast.makeText(this, "Original picture already exists", Toast.LENGTH_LONG).show());
+            }
+
 
 
         });

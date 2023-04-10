@@ -8,9 +8,13 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class MarsPhoto {
-     @PrimaryKey
+
+
+     @PrimaryKey(autoGenerate = true)
+     @ColumnInfo(name="dataID")
+     public long dataID;
+
     @ColumnInfo(name="id")
-     @NonNull
     private String id;
     @ColumnInfo(name="imgSrc")
     private String imgSrc;

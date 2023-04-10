@@ -1,8 +1,12 @@
 package algonquin.cst2335.finalproject.data;
 
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -13,6 +17,8 @@ import android.view.ViewGroup;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -23,6 +29,8 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.ImageRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -46,7 +54,10 @@ import algonquin.cst2335.finalproject.R;
 public class PhotoFragment extends Fragment {
 
     MarsPhoto selected;
-    public PhotoFragment(MarsPhoto m) {selected = m;}
+
+    public PhotoFragment(MarsPhoto m) {
+        selected = m;
+    }
 
     private TextView urlTextview;
     Bitmap image;
@@ -68,29 +79,27 @@ public class PhotoFragment extends Fragment {
                 .placeholder(R.drawable.placeholder)
                 .into(binding.op);
 
-        String pathname = getActivity().getFilesDir() + "/" + id + ".jpg";
-        File file = new File(pathname);
 
 
 
 
-        if (!file.exists()) {
-
-
-            ImageRequest imgReq = new ImageRequest(imageUrl, new Response.Listener<Bitmap>() {
-                @Override
-                public void onResponse(Bitmap bitmap) {
-                    try {
-                        // Do something with loaded bitmap...
-                        image = bitmap;
-                        image.compress(Bitmap.CompressFormat.PNG, 100, getActivity().openFileOutput(id + ".jpg", Activity.MODE_PRIVATE));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
-            });
-        };
+//        if (!file.exists()) {
+//
+//
+//            ImageRequest imgReq = new ImageRequest(imageUrl, new Response.Listener<Bitmap>() {
+//                @Override
+//                public void onResponse(Bitmap bitmap) {
+//                    try {
+//                        // Do something with loaded bitmap...
+//                        image = bitmap;
+//                        image.compress(Bitmap.CompressFormat.PNG, 100, getActivity().openFileOutput(id + ".jpg", Activity.MODE_PRIVATE));
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
+//            });
+//        };
 
 
 //
@@ -133,11 +142,19 @@ public class PhotoFragment extends Fragment {
 //            }
 //        }).start();
 
+//        String imageName = id + ".jpg";
+//        File imageFile = new File(getActivity().getExternalFilesDir(null), imageName);
+
+//        image = BitmapFactory.decodeFile(pathname);
+//
+//        binding.op.setImageBitmap(image);
+
+
         binding.imgSrc.setOnClickListener(v -> {
 
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(selected.getImgSrc()));
-                startActivity(intent);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(selected.getImgSrc()));
+            startActivity(intent);
         });
 
 
@@ -145,8 +162,7 @@ public class PhotoFragment extends Fragment {
         return binding.getRoot();
 
 
-
-
-
     }
+
+
 }
