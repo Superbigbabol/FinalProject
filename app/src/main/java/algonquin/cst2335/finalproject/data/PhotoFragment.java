@@ -1,5 +1,6 @@
 package algonquin.cst2335.finalproject.data;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,17 +11,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
+import android.widget.ImageView;
 import android.widget.TextView;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Response;
+import com.android.volley.toolbox.ImageRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,6 +49,7 @@ public class PhotoFragment extends Fragment {
     public PhotoFragment(MarsPhoto m) {selected = m;}
 
     private TextView urlTextview;
+    Bitmap image;
 
 
     @Override
@@ -50,12 +59,38 @@ public class PhotoFragment extends Fragment {
         DetailsLayoutBinding binding = DetailsLayoutBinding.inflate(inflater);
         binding.camerName.setText(selected.getCameraName());
         String imageUrl = selected.getImgSrc();
+        String id = selected.getId();
         binding.imgSrc.setText(imageUrl);
+
         Glide.with(this)
                 .load(imageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.placeholder)
                 .into(binding.op);
+
+        String pathname = getActivity().getFilesDir() + "/" + id + ".jpg";
+        File file = new File(pathname);
+
+
+
+
+        if (!file.exists()) {
+
+
+            ImageRequest imgReq = new ImageRequest(imageUrl, new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap bitmap) {
+                    try {
+                        // Do something with loaded bitmap...
+                        image = bitmap;
+                        image.compress(Bitmap.CompressFormat.PNG, 100, getActivity().openFileOutput(id + ".jpg", Activity.MODE_PRIVATE));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
+            });
+        };
 
 
 //

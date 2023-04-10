@@ -66,6 +66,7 @@ import androidx.room.Room;
 public class MarsPhotoActivity extends AppCompatActivity {
 
     private ArrayList<MarsPhoto> photoList;
+    private boolean isSavedList = true;
 
 
     private static final String API_KEY = "CrXmeT8aWrb0WFvtkfJDwf2ue6BVIn4LsDJRScxV";
@@ -94,6 +95,7 @@ public class MarsPhotoActivity extends AppCompatActivity {
         ImageView thumbnail;
         TextView roverName;
         TextView photoID;
+        public TextView aView;
 
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
@@ -105,6 +107,50 @@ public class MarsPhotoActivity extends AppCompatActivity {
                 position = getAbsoluteAdapterPosition();
                 MarsPhoto selected = photoList.get(position);
                 mvm.selectedPhoto.postValue(selected);
+
+                if(isSavedList){
+
+                    aView = binding.snackbar;
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MarsPhotoActivity.this);
+                    builder.setMessage("Do you want to delete this photo?");
+                    builder.setTitle("Warning!!");
+                    builder.setPositiveButton("OK", (dialog, which)->{
+                        Executor thread_1 = Executors.newSingleThreadExecutor();
+                        thread_1.execute(()->{
+
+                            mDao.deletePhoto(selected);
+                            photoList.remove(position);
+                            runOnUiThread(()->{
+                                myAdapter.notifyItemRemoved(position);
+                                Snackbar.make(aView, "Item deleted", Snackbar.LENGTH_LONG)
+                                        .setAction("Undo", clk ->{
+                                            Executor thread_2 = Executors.newSingleThreadExecutor();
+                                            thread_2.execute(()->{
+
+                                                mDao.insertPhoto(selected);
+                                                photoList.add(position,selected);
+                                                runOnUiThread(()->{
+                                                    myAdapter.notifyItemInserted(position);
+                                                });
+
+
+                                            });
+                                        })
+                                        .show();
+
+                            });
+
+                        });
+                    });
+                    builder.setNegativeButton("Cancel", (dialog, which)->{
+
+                    });
+                    builder.create().show();
+
+                }
+
+
 
             });
 
@@ -301,6 +347,8 @@ public class MarsPhotoActivity extends AppCompatActivity {
 
         // fetch image from web
         binding.retrieveBtn.setOnClickListener(click -> {
+
+            isSavedList = false;
             String sol = binding.sol.getText().toString();
             editor.putString("solarDayOnMars", sol);
             editor.apply();
@@ -308,7 +356,10 @@ public class MarsPhotoActivity extends AppCompatActivity {
             binding.myFavourite.setText(searchList);
 
             photoList = new ArrayList<>();
-            bitmapList = new ArrayList<>();
+            mvm.photoList.setValue(photoList = new ArrayList<>());
+            binding.imgRecyclerView.setAdapter(myAdapter);
+
+ //           bitmapList = new ArrayList<>();
 
 //            Glide.with(this)
 //                    .load(url1)
@@ -385,14 +436,35 @@ public class MarsPhotoActivity extends AppCompatActivity {
         // click on save image, the image should be saved to disk, and the width, height, and date & time of when the image was saved should be stored on the database
         binding.saveBtn.setOnClickListener(click -> {
 
+            isSavedList = true;
+
+            String savedList = getString(R.string.savedList);
+            binding.myFavourite.setText(savedList);
+
+
             MarsPhoto newPhoto = mvm.selectedPhoto.getValue();
+
+
 
             Executor thread_1 = Executors.newSingleThreadExecutor();
             thread_1.execute(()->{
-                //insert into database
+
                 mDao.insertPhoto(newPhoto);
 
             });
+
+            photoList = new ArrayList<>();
+
+
+                mvm.photoList.setValue(photoList = new ArrayList<>());
+                Executor thread = Executors.newSingleThreadExecutor();
+                thread.execute(() ->
+                {
+                    photoList.addAll(mDao.getAllPhotos()); //Once you get the data from database
+
+                    runOnUiThread(() -> binding.imgRecyclerView.setAdapter(myAdapter)); //You can then load the RecyclerView
+                });
+
 
         });
 

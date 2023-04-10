@@ -28,7 +28,7 @@
 
     <!-- Mars Photo-->
     <string name="searchPhoto">Search Photo</string>
-    <string name="savedPhoto">Saved Photo</string>
+    <string name="nasaPhoto">Nasa Mars Rover Photos</string>
     <string name="savePhoto">Save Photo</string>
     <string name="savedList">Saved Photo List</string>
     <string name="searchList">Search Result List</string>

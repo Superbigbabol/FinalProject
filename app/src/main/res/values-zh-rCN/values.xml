@@ -5,11 +5,11 @@
 
     <!-- Mars Photo-->
 
-    <string name="searchPhoto">s照片</string>
-    <string name="savedPhoto">Saved Photo</string>
-    <string name="savePhoto">Save Photo</string>
-    <string name="savedList">Saved Photo List</string>
-    <string name="searchList">Search Result List</string>
+    <string name="searchPhoto">搜索照片</string>
+    <string name="nasaPhoto">NASA火星照片</string>
+    <string name="savePhoto">保存照片</string>
+    <string name="savedList">保存照片列表</string>
+    <string name="searchList">搜索结果列表</string>
 
 
 
