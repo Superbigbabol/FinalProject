@@ -52,4 +52,11 @@
     <!-- weather-->
     <string name="forest">天气预报</string>
     <string name="save_city">保存城市</string>
+
+    <!-- Mars Photo-->
+    <string name="searchPhoto">搜索照片</string>
+    <string name="nasaPhoto">NASA火星照片</string>
+    <string name="savePhoto">保存照片</string>
+    <string name="savedList">保存照片列表</string>
+    <string name="searchList">搜索结果列表</string>
 </resources>

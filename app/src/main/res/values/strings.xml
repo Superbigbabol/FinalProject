@@ -74,4 +74,11 @@
     <!-- Weather -->
     <string name="forest">GET FOREST</string>
     <string name="save_city">SAVE CITY</string>
+
+    <!-- nasa-->
+    <string name="searchPhoto">Serach Photo</string>
+    <string name="nasaPhoto">Nasa Mars Rover Photos</string>
+    <string name="savePhoto">Save Photo</string>
+    <string name="savedList">Saved Photo List</string>
+    <string name="searchList">Search Result List</string>
 </resources>
