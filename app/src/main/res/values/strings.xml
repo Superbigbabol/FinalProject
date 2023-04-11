@@ -1,27 +1,84 @@
 <resources>
-    <string name="app_name">纽约时报</string>
-    <string name="title">新闻</string>
-    <string name="search">搜索</string>
-    <string name="input_search">请输入搜索内容</string>
-    <string name="load">加载中......</string>
-    <string name="search_ok_first">搜索成功，</string>
-    <string name="search_ok_second"> 条新闻</string>
-    <string name="input_english">请输入英语</string>
-    <string name="dia_title">温馨提示</string>
-    <string name="leave_app">您想退出APP?</string>
-    <string name="ok">确定</string>
-    <string name="know">知道了</string>
-    <string name="help">帮助</string>
-    <string name="cancel">取消</string>
-    <string name="nodata">暂无数据</string>
-    <string name="news_use">本页面是新闻列表页面，在输入框里可以输入搜索的新闻，点击搜索可以进行相应的搜索，右上角有进入收藏界面的按钮，点击列表可进详情。</string>
-    <string name="collection">收藏</string>
-    <string name="collection_use">本页面是收藏页面，收藏的新闻可以在这里看到，点击列表可以进详情。</string>
-    <string name="content_use">本页面是新闻详情页面，可以详细的浏览新闻，以及收藏新闻。</string>
-    <string name="cancel_collection">取消收藏？</string>
-    <string name="cancel_collection_bottom">取消收藏</string>
-    <string name="collection_bottom">收藏成功</string>
-    <string name="have">有 </string>
-    <string name="details">详情</string>
-    <string name="num_coll">个收藏 </string>
+    <string name="app_name">FinalProject</string>
+
+    <!-- kitten app strings -->
+    <string name="kitten_header">Kitten Placeholder Images</string>
+    <string name="kitten_fetchbtn">FETCH IMAGE</string>
+    <string name="kitten_savebtn">SAVE IMAGE</string>
+    <string name="kitten_favourite">My Favourite Images</string>
+
+
+    <string-array name="cities">
+        <item>Ottawa</item>
+        <item>Toronto</item>
+        <item>Quebec</item>
+        <item>Montreal</item>
+        <item>Vancouver</item>
+    </string-array>
+
+    <!-- home page strings -->
+    <string name="home_header">Welcome to our app!</string>
+    <string name="home_nasa">Nasa Mars Rover photos</string>
+    <string name="home_kitten">Kitten Placeholder images</string>
+    <string name="home_nyt">New York Times</string>
+    <string name="home_weather">WeatherStack</string>
+
+    <!-- rowholder delete -->
+    <string name="row_delete">Delete</string>
+    <string name="delete_prompt">Are you sure to delete this favourite record?</string>
+    <string name="delete_title">Caution!</string>
+
+    <!-- fragment -->
+    <string name="fragment_header">Image Details</string>
+    <string name="fragment_width">Width : </string>
+    <string name="fragment_height">Height : </string>
+    <string name="fragment_time">Saved Time : </string>
+
+    <!-- menu -->
+    <string name="help">Help</string>
+    <string name="help_content">1.Enter width and height 2.fetch image 3.save it in favourite if you like</string>
+
+    <!-- Toast -->
+    <string name="saved">Nothing to save</string>
+
+    <!-- EditText hint -->
+    <string name="hint_width">Enter width</string>
+    <string name="hint_height">Enter height</string>
+
+    <!-- New York Time-->
+    <string name="title">News</string>
+    <string name="search">Search</string>
+    <string name="input_search">Please enter the search content</string>
+    <string name="load">Loading......</string>
+    <string name="search_ok_first">Search succeeded,</string>
+    <string name="search_ok_second"> news in total</string>
+    <string name="input_english">Please enter English</string>
+    <string name="dia_title">Title</string>
+    <string name="leave_app">Do you want to leave APP?</string>
+    <string name="ok">OK</string>
+    <string name="help_nyt">Help</string>
+    <string name="news_use">This page is a news list page. You can enter the search news in the input box, click Search to carry out the corresponding search. There is a button in the upper right corner to enter the collection interface, and click the list to enter the details.</string>
+    <string name="collection_use">This page is a favorite page. The favorite news can be seen here. Click the list to enter details.</string>
+    <string name="cancel">Cancel</string>
+    <string name="content_use">This page is the news details page. You can browse the news and collect the news in detail.</string>
+    <string name="nodata">No Data</string>
+    <string name="collection">Collection</string>
+    <string name="cancel_collection">Cancel collection?</string>
+    <string name="cancel_collection_bottom">Cancel Collection</string>
+    <string name="have">There are </string>
+    <string name="details">Details</string>
+    <string name="know">Know</string>
+    <string name="num_coll">collections in total </string>
+    <string name="collection_bottom">Collection succeeded</string>
+
+    <!-- Weather -->
+    <string name="forest">GET FOREST</string>
+    <string name="save_city">SAVE CITY</string>
+
+    <!-- nasa-->
+    <string name="searchPhoto">Serach Photo</string>
+    <string name="nasaPhoto">Nasa Mars Rover Photos</string>
+    <string name="savePhoto">Save Photo</string>
+    <string name="savedList">Saved Photo List</string>
+    <string name="searchList">Search Result List</string>
 </resources>

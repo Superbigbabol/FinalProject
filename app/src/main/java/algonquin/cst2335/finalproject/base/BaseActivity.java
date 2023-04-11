@@ -1,6 +1,5 @@
 package algonquin.cst2335.finalproject.base;
 
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;

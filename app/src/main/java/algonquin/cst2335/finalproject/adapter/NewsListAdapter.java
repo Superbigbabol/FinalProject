@@ -1,9 +1,8 @@
 package algonquin.cst2335.finalproject.adapter;
 
+import algonquin.cst2335.finalproject.R;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.homework.news_master.R;
-
 
 import algonquin.cst2335.finalproject.bean.NewsBean;
 

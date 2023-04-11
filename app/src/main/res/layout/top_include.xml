@@ -22,7 +22,7 @@
                 android:src="@mipmap/md_nav_back"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
-                 />
+                />
 
         </LinearLayout>
 
@@ -46,10 +46,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
+                android:visibility="gone"
                 android:layout_toLeftOf="@+id/ivHelp"
                 android:src="@drawable/ic_action_bookmark" />
             <ImageView
                 android:id="@+id/ivHelp"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
