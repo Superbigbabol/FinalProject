@@ -69,6 +69,7 @@ public class NewYorkTimeActivity extends BaseActivity implements View.OnClickLis
         ImmersionBar.with(this).titleBar(rl_title).statusBarDarkFont(false).init();
         tvSearch.setOnClickListener(this);
         ivHelp.setOnClickListener(this);
+        cbCollectionBook.setVisibility(View.VISIBLE);
         cbCollectionBook.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(NewYorkTimeActivity.this));
 //        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));

@@ -25,11 +25,11 @@ import com.android.volley.toolbox.Volley;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.gyf.immersionbar.ImmersionBar;
-import com.homework.news_master.R;
 
 
 import java.util.List;
 
+import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.adapter.NewsListAdapter;
 import algonquin.cst2335.finalproject.base.BaseActivity;
 import algonquin.cst2335.finalproject.bean.NewsBean;
@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected int initContentView() {
-        return R.layout.activity_main;
+        return R.layout.activity_newyorktime;
     }
 
     /**
@@ -69,6 +69,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ImmersionBar.with(this).titleBar(rl_title).statusBarDarkFont(false).init();
         tvSearch.setOnClickListener(this);
         ivHelp.setOnClickListener(this);
+        cbCollectionBook.setVisibility(View.VISIBLE);
         cbCollectionBook.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 //        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));

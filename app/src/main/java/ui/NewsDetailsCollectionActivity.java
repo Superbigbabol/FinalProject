@@ -16,8 +16,9 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.gyf.immersionbar.ImmersionBar;
-import com.homework.news_master.R;
 
+
+import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.base.BaseActivity;
 import algonquin.cst2335.finalproject.bean.CollectionBean;
 import db.NewsDao;
@@ -37,7 +38,7 @@ public class NewsDetailsCollectionActivity extends BaseActivity implements View.
 
     @Override
     protected int initContentView() {
-        return R.layout.activity_content;
+        return algonquin.cst2335.finalproject.R.layout.activity_content;
     }
 
     @Override
